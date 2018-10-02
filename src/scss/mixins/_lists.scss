@@ -1,0 +1,13 @@
+@mixin list-unstyled {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+@mixin list-inline {
+  @include clearfix;
+
+  li {
+    float: left;
+  }
+}

@@ -1,0 +1,31 @@
+.icon {
+  display: inline-block;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &_size_52 {
+    width: 52px;
+    height: 52px;
+  }
+
+  // Вариации иконок
+  &_thumb {
+
+    &_key {
+      background-image: url('../img/key.svg');
+    }
+
+    &_line-chart {
+      background-image: url('../img/line-chart.svg');
+    }
+
+    &_google-home {
+      background-image: url('../img/google-home.svg');
+    }
+
+    &_wifi {
+      background-image: url('../img/wifi.svg');
+    }
+  }
+}
