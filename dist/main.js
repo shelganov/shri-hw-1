@@ -97,6 +97,17 @@ eval("module.exports = __webpack_require__.p + \"img/graph.svg?dfd67a8c94594aac8
 
 /***/ }),
 
+/***/ "./src/img/graph2.svg":
+/*!****************************!*\
+  !*** ./src/img/graph2.svg ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"img/graph2.svg?668ce37745b715999dd6a18cf6cdb231\";\n\n//# sourceURL=webpack:///./src/img/graph2.svg?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -105,7 +116,7 @@ eval("module.exports = __webpack_require__.p + \"img/graph.svg?dfd67a8c94594aac8
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scss/main.scss */ \"./src/scss/main.scss\");\n/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_main_scss__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _img_graph_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./img/graph.svg */ \"./src/img/graph.svg\");\n/* harmony import */ var _img_graph_svg__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_img_graph_svg__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scss/main.scss */ \"./src/scss/main.scss\");\n/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_scss_main_scss__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _img_graph_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./img/graph.svg */ \"./src/img/graph.svg\");\n/* harmony import */ var _img_graph_svg__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_img_graph_svg__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _img_graph2_svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./img/graph2.svg */ \"./src/img/graph2.svg\");\n/* harmony import */ var _img_graph2_svg__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_img_graph2_svg__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 

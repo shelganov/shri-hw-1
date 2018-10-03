@@ -1,7 +1,33 @@
 .footer {
+  padding: 22px 28px;
+  border-top: 1px solid #F0F0F0;
 
   &__inner {
+    @include clearfix;
     padding-left: 40px;
     padding-right: 37px;
+  }
+
+  &__links {
+
+    &-item {
+      & + & {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  &__link,
+  &__copyright {
+    font-size: 12px;
+    color: #858585;
+  }
+
+  &__link {
+    float: left;
+  }
+
+  &__copyright {
+    float: right;
   }
 }

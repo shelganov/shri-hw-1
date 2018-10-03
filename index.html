@@ -28,53 +28,136 @@
             <div class="container container-grid">
                 <h1>Лента событий</h1>
                 <div class="cards">
-                    <div class="card card_size_lg">
+                    <div class="card card_size_l">
                         <div class="card__header">
                             <div class="icon icon_size_52 icon_thumb_line-chart"></div>
                             <div class="card__title">Еженедельный отчет по расходам ресурсов</div>
+                            <div class="card__type">Сенсоры потребления</div>
+                            <div class="card__date">19:00, Сегодня</div>
                         </div>
-                        <div class="card__type">Сенсоры потребления</div>
-                        <div class="card__date">19:00, Сегодня</div>
                         <div class="card__text">
                             Так держать! За последнюю неделю вы потратили на 10% меньше ресурсов, чем неделей ранее.
                         </div>
-                        <div class="card__img"><img src="./dist/img/graph.svg" alt=""></div>
+                        <div class="card__img"><img src="./dist/img/graph2.svg" alt=""></div>
                     </div>
-                    <div class="card card_size_xs">
+                    <div class="card card_size_s">
                         <div class="card__header">
                             <div class="icon icon_size_52 icon_thumb_key"></div>
                             <div class="card__title">Дверь открыта</div>
+                            <div class="card__type">Сенсор входной двери</div>
+                            <div class="card__date">18:50, Сегодня</div>
                         </div>
-                        <div class="card__type">Сенсор входной двери</div>
-                        <div class="card__date">18:50, Сегодня</div>
                     </div>
-                    <div class="card card_size_xs">
+                    <div class="card card_size_s">
                         <div class="card__header">
                             <div class="icon icon_size_52 icon_thumb_google-home"></div>
                             <div class="card__title">Уборка закончена</div>
+                            <div class="card__type">Пылесос</div>
+                            <div class="card__date">18:45, Сегодня</div>
                         </div>
-                        <div class="card__type">Пылесос</div>
-                        <div class="card__date">18:45, Сегодня</div>
                     </div>
-                    <div class="card card_size_xs">
+                    <div class="card card_size_s">
                         <div class="card__header">
                             <div class="icon icon_size_52 icon_thumb_wifi"></div>
                             <div class="card__title">Новый пользователь</div>
+                            <div class="card__type">Роутер</div>
+                            <div class="card__date">18:50, Сегодня</div>
                         </div>
-                        <div class="card__type">Роутер</div>
-                        <div class="card__date">18:50, Сегодня</div>
+                    </div>
+                    <div class="card card_size_m">
+                        <div class="card__header">
+                            <div class="icon icon_size_52 icon_thumb_wifi"></div>
+                            <div class="card__title">Изменен климатический режим</div>
+                            <div class="card__type">Сенсор микроклимата</div>
+                            <div class="card__date">18:30, Сегодня</div>
+                        </div>
+                        <div class="card__text">Установлен климатический режим «Фиджи»</div>
+                        <div class="card__special">
+                            <div class="card__temperature">Температура:
+                                <span class="card__temperature-val">24 C</span>
+                            </div>
+                            <div class="card__wet">Влажность:
+                                <span class="card__wet-val">80%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card_size_m card_type_warning">
+                        <div class="card__header">
+                            <div class="icon icon_size_52 icon_thumb_wifi"></div>
+                            <div class="card__title">Невозможно включить кондиционер</div>
+                            <div class="card__type">Кондиционер</div>
+                            <div class="card__date">18:21, Сегодня</div>
+                        </div>
+                        <div class="card__text">В комнате открыто окно, закройте его и повторите попытку</div>
+                    </div>
+                    <div class="card card_size_m">
+                        <div class="card__header">
+                            <div class="icon icon_size_52 icon_thumb_wifi"></div>
+                            <div class="card__title">Музыка включена</div>
+                            <div class="card__type">Яндекс.Станция</div>
+                            <div class="card__date">18:16, Сегодня</div>
+                        </div>
+                        <div class="card__text">Сейчас проигрывается:</div>
+                        <div class="player">
+                            <div class="player__artist"></div>
+                            <div class="player__track"></div>
+                            <div class="player__length"></div>
+                        </div>
+                    </div>
+                    <div class="card card_size_m">
+                        <div class="card__header">
+                            <div class="icon icon_size_52 icon_thumb_wifi"></div>
+                            <div class="card__title">Заканчивается молоко</div>
+                            <div class="card__type">Холодильник</div>
+                            <div class="card__date">17:23, Сегодня</div>
+                        </div>
+                        <div class="card__text">
+                            Кажется, в холодильнике заканчивается молоко. Вы хотите добавить его в список покупок?
+                        </div>
+                        <button class="btn">Да</button>
+                        <button class="btn">Нет</button>
+                    </div>
+                    <div class="card card_size_s">
+                        <div class="card__header">
+                            <div class="icon icon_size_52 icon_thumb_battery"></div>
+                            <div class="card__title">Зарядка завершена</div>
+                            <div class="card__type">Оконный сенсор</div>
+                            <div class="card__date">16:22, Сегодня</div>
+                        </div>
+                        <div class="card__text">Ура! Устройство «Оконный сенсор» снова в строю!</div>
+                    </div>
+                    <div class="card card_size_s">
+                        <div class="card__header">
+                            <div class="icon icon_size_52 icon_thumb_kettle"></div>
+                            <div class="card__title">Вода вскипела</div>
+                            <div class="card__type">Чайник</div>
+                            <div class="card__date">16:20, Сегодня</div>
+                        </div>
+                    </div>
+                    <div class="card card_size_l card_type_warning">
+                        <div class="card__header">
+                            <div class="icon icon_size_52 icon_thumb_kettle"></div>
+                            <div class="card__title">Пылесос застрял</div>
+                            <div class="card__type">Сенсор движения</div>
+                            <div class="card__date">16:17, Сегодня</div>
+                        </div>
+                        <div class="card__text">
+                            Робопылесос не смог сменить свое местоположение в течение последних 3 минут. Похоже, ему
+                            нужна помощь.
+                        </div>
+                        <div class="card__img"></div>
                     </div>
                 </div>
             </div>
         </main>
         <footer class="footer">
             <div class="footer__inner">
-                <div class="footer__links">
-                    <a href="#" class="footer__link">Помощь</a>
-                    <a href="#" class="footer__link">Обратная связь</a>
-                    <a href="#" class="footer__link">Разработчикам</a>
-                    <a href="#" class="footer__link">Условия использования</a>
-                </div>
+                <ul class="list-inline list-unstyled footer__links">
+                    <li class="footer__links-item"><a href="#" class="footer__link">Помощь</a></li>
+                    <li class="footer__links-item"><a href="#" class="footer__link">Обратная связь</a></li>
+                    <li class="footer__links-item"><a href="#" class="footer__link">Разработчикам</a></li>
+                    <li class="footer__links-item"><a href="#" class="footer__link">Условия использования</a></li>
+                </ul>
                 <div class="footer__copyright">© 2001–2017 &nbsp;ООО «Яндекс»</div>
             </div>
         </footer>
