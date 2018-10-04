@@ -5,3 +5,7 @@
 .list-unstyled {
   @include list-unstyled;
 }
+
+.text-bold {
+  font-weight: 700;
+}

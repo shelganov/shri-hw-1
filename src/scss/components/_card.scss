@@ -1,50 +1,91 @@
 .cards {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: 20px;
+  grid-gap: 18px 20px;
 }
 
 .card {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  //display: grid;
+  //grid-template-columns: repeat(2, 1fr);
   //grid-auto-rows: min-content;
-  //padding: 20px;
+  padding: 20px;
   background: #FAFAFA;
   border-radius: 20px;
-
-  &__inner {
-    padding: 20px;
+  transition: .2s box-shadow;
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 2px 6px 0 rgba(197,186,186,0.50);
   }
 
+  &__main {
+    @include clearfix;
+  }
+
+
+
   &__header {
-    grid-column: span 2;
-    padding: 20px;
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+    width: 100%;
+    //grid-column: span 2;
+    //padding: 20px;
 
 
     .icon {
-      vertical-align: middle;
+      //vertical-align: middle;
     }
   }
 
   &__title {
     display: inline-block;
+    margin-left: 19px;
     font-size: 24px;
     font-weight: 700;
-
-    vertical-align: middle;
-    margin-left: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
-  
+
+  &__description {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
   &__date {
-    text-align: right;
+    margin-left: auto;
   }
 
   &__text {
     grid-column: span 2;
+    width: 100%;
   }
 
   &__img {
     grid-column: span 2;
+    width: 100%;
+
+    &-graph {
+      height: 299px;
+      background: url("../img/graph2.svg") no-repeat 50% center;
+      background-size: cover;
+    }
+  }
+
+  &__special {
+    margin-top: 20px;
+    //margin-top: 59px;
+  }
+
+  &__temperature {
+    display: inline-block;
+    margin-right: 50px;
+  }
+
+  &__wet {
+    display: inline-block;
   }
 
 
@@ -53,9 +94,19 @@
     grid-column: span 4;
     grid-row: span 6;
 
-    .card__type,
-    .card__date {
-      margin-top: 16px;
+
+    .card__text {
+      padding-right: 50px;
+    }
+    .card__description {
+      margin-top: 17px;
+    }
+
+    .card__img {
+      margin-top: 46px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      overflow: hidden;
     }
 
     .card__text {
@@ -67,36 +118,67 @@
   &_size_m {
     grid-column: span 3;
     grid-row: span 2;
+
+    .card__description {
+      margin-top: 14px;
+    }
+
+    .card__text {
+      margin-top: 25px;
+      letter-spacing: 1.1px;
+      line-height: 1.23;
+    }
+
+    .card__special {
+      align-self: flex-end;
+    }
   }
 
   &_size_s {
     grid-column: span 2;
     grid-row: span 2;
 
-    .card__type {
-      grid-column: span 2;
+    .card__description {
+      margin-top: 7px;
     }
 
     .card__date {
-      grid-column: span 2;
-      text-align: left;
+      margin-left: 0;
+      width: 100%;
+
+      //margin-top: 12px;
+      align-self: flex-end;
+
     }
   }
 
   // Вариации карточек - типы
-  &_type_warning {
-    overflow: hidden;
+  &_type_critical {
+    padding: 0;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
     background-color: #DB5341;
 
-    .card__header {
+    .card__header{
+      padding: 20px 20px 0;
+      color: #FFF;
+    }
+
+    .card__description {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    
+    .card__type,
+    .card__date {
       color: #FFF;
     }
 
     .card__text {
-      border-top-left-radius: 20px;
-      background-color: #FAFAFA;
       padding: 20px;
-      border-top-right-radius: 20px;
+      margin-top: 14px;
+      background-color: #FAFAFA;
+      border-radius: 20px;
     }
   }
 }
