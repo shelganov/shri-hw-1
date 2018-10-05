@@ -1,0 +1,114 @@
+.player {
+
+  &__cover {
+    width: 53px;
+    height: 52px;
+    border-radius: 10px;
+    background: url("https://avatars.yandex.net/get-music-content/193823/1820a43e.a.5517056-1/m1000x1000") no-repeat center;
+    background-size: cover;
+  }
+
+  &__track {
+
+    &-title {
+      letter-spacing: 1px;
+    }
+
+    //&-slider {
+    //  margin-top: 11px;
+    //  margin-bottom: 11px;
+    //}
+
+    &-length {
+      margin-left: 14px;
+      font-family: 'Helvetica';
+      font-size: 14px;
+      color: #D5A1A1A1;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__ctrl {
+    display: inline-block;
+    width: 60px;
+    height: 52px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    &_type {
+      &_prev {
+        background-image: url('../img/prev-db.svg');
+      }
+
+      &_next {
+        background-image: url('../img/next-db.svg');
+      }
+    }
+  }
+
+  &__vol {
+    display: flex;
+    align-items: center;
+
+    &-length {
+      //margin-left: 10px;
+      font-family: 'Helvetica';
+      font-size: 14px;
+      color: #D5A1A1A1;
+    }
+  }
+}
+
+// Слайдер для перемотки 1 песни
+.track-slider {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  &__line {
+    position: relative;
+    width: 350px;
+    height: 1px;
+    background-color: #979797;
+  }
+
+  &__ctrl {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    width: 12px;
+    height: 20px;
+    background: #D8D8D8;
+    border-radius: 4.5px;
+  }
+}
+
+// Слайдер для регулировки громкости
+.vol-slider {
+
+  &__line {
+    position: relative;
+    width: 267px;
+    height: 4px;
+    background: rgba(216,216,216,0.30);
+    border-radius: 2px;
+  }
+
+  &__ctrl {
+    position: absolute;
+    top: -6px;
+    left: 200px;
+    width: 17px;
+    height: 16px;
+    background: #605757;
+    border-radius: 26px;
+  }
+
+}

@@ -88,6 +88,39 @@
     display: inline-block;
   }
 
+  // Плеер
+  &__player {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 29px;
+
+    .player__cover {
+      margin-right: 17px;
+    }
+    .player__controls {
+      margin-top: 11px;
+    }
+
+    .player__ctrl_type_next {
+      margin-left: 17px;
+    }
+
+    .player__vol {
+      margin-left: 11px;
+    }
+
+    .player__vol-length {
+      margin-left: 19px;
+    }
+
+    .track-slider {
+      margin-top: 11px;
+      margin-bottom: 11px;
+    }
+  }
+
+
 
   // Вариации карточек - размеры
   &_size_l {
@@ -97,6 +130,8 @@
 
     .card__text {
       padding-right: 50px;
+      margin-top: 24px;
+      font-size: 24px;
     }
     .card__description {
       margin-top: 17px;
@@ -107,11 +142,6 @@
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       overflow: hidden;
-    }
-
-    .card__text {
-      margin-top: 24px;
-      font-size: 24px;
     }
   }
 
@@ -125,7 +155,7 @@
 
     .card__text {
       margin-top: 25px;
-      letter-spacing: 1.1px;
+      font-size: 20px;
       line-height: 1.23;
     }
 
@@ -142,6 +172,9 @@
       margin-top: 7px;
     }
 
+    .card__text {
+      font-size: 20px;
+    }
     .card__date {
       margin-left: 0;
       width: 100%;

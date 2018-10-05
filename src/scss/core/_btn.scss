@@ -1,0 +1,15 @@
+.btn {
+  display: inline-block;
+  padding: 6px 40px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  background: #E5E5E5;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: .2s background-color ease;
+  &:hover,
+  &:focus {
+    background-color: #FFD93E;
+  }
+}
