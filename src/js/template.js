@@ -1,8 +1,10 @@
-
+/**
+ * Шаблон для карточек
+ * @param events
+ */
 function renderCards(events) {
     let templateBase = document.getElementById('tplBase');
     let templatePlayer = document.getElementById('tplPlayer');
-    // let item = template.content.querySelector(".card")[0];
 
     for (let i = 0; i < events.events.length; i++) {
         let clone = templateBase.content.cloneNode(true);
@@ -13,6 +15,13 @@ function renderCards(events) {
         card.querySelector('.card__title').innerHTML = events.events[i].title;
         card.querySelector('.card__source').innerHTML = events.events[i].source;
         card.querySelector('.card__time').innerHTML = events.events[i].time;
+        let cardTopContent = document.createElement('div');
+        cardTopContent.classList.add('card__wrap');
+        let cardChildren = card.querySelectorAll(`.card>*`);
+        let cardCross = document.createElement('div');
+        cardCross.classList.add('card__cross');
+        let cardNext = document.createElement('div');
+        cardNext.classList.add('card__next');
 
         // Тип карточки - критический
         if (events.events[i].type == 'critical') {
@@ -82,7 +91,6 @@ function renderCards(events) {
         if (events.events[i].icon == 'stats') {
             let imgBlock = document.createElement('div');
             imgBlock.classList.add('card__img');
-            // imgBlock.style.backgroundImage = `url(dist/img/graph2.svg)`;
             imgBlock.innerHTML = `<img class="image-graph"
                                        src="dist/img/graph.png"
                                        srcset="dist/img/graph@2x.png 2x,
@@ -99,8 +107,6 @@ function renderCards(events) {
             let imgBlock = document.createElement('div');
             imgBlock.classList.add('card__img','image-hoover');
             imgBlock.style.backgroundImage = `url(dist/img/hoover.png)`;
-            // imgBlock.innerHTML = '<img src="dist/img/hoover.png" alt="">';
-            // imgBlock.style.backgroundImage = `url(dist/img/hoover.png)`;
 
             if (events.events[i].type == 'critical') {
                 card.querySelector('.card__content').appendChild(imgBlock);
@@ -108,32 +114,13 @@ function renderCards(events) {
                 card.appendChild(imgBlock);
         }
 
-
-
-        let cardTopContent = document.createElement('div');
-        cardTopContent.classList.add('card__wrap');
-
-        // let cardChildren = Array.from(card.childNodes);
-
-        // console.log(card.querySelectorAll(`.card>*`));
-
-        let children = card.querySelectorAll(`.card>*`);
-
-        for (let q = 0; q < children.length - 1; q++) {
-            // if (children[q].nextSibling != null) {
-            cardTopContent.appendChild(children[q]);
+        // Добавление контента в обербку wrap (прижимается к верху карточки)
+        for (let q = 0; q < cardChildren.length - 1; q++) {
+            cardTopContent.appendChild(cardChildren[q]);
         }
-        // console.log(cardTopContent);
 
-        let cross = document.createElement('div');
-        cross.classList.add('card__cross');
-        let enter = document.createElement('div');
-        enter.classList.add('card__next');
-
-        card.insertBefore(cross,card.firstChild);
-        card.insertBefore(enter,card.firstChild);
-
-        // console.log(cardTopContent)
+        card.insertBefore(cardCross,card.firstChild);
+        card.insertBefore(cardNext,card.firstChild);
         card.insertBefore(cardTopContent, card.firstChild);
         templateBase.parentNode.appendChild(clone);
     }
