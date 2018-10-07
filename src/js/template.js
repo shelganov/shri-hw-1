@@ -1,7 +1,4 @@
-/**
- * Шаблон для карточек
- * @param events
- */
+
 function renderCards(events) {
     let templateBase = document.getElementById('tplBase');
     let templatePlayer = document.getElementById('tplPlayer');
@@ -17,7 +14,6 @@ function renderCards(events) {
         card.querySelector('.card__time').innerHTML = events.events[i].time;
         let cardTopContent = document.createElement('div');
         cardTopContent.classList.add('card__wrap');
-        let cardChildren = card.querySelectorAll(`.card>*`);
         let cardCross = document.createElement('div');
         cardCross.classList.add('card__cross');
         let cardNext = document.createElement('div');
@@ -114,7 +110,9 @@ function renderCards(events) {
                 card.appendChild(imgBlock);
         }
 
-        // Добавление контента в обербку wrap (прижимается к верху карточки)
+        // Добавляем дочерние элементы в обертку, кроме последнего
+        let cardChildren = card.querySelectorAll(`.card>*`);
+
         for (let q = 0; q < cardChildren.length - 1; q++) {
             cardTopContent.appendChild(cardChildren[q]);
         }
@@ -124,7 +122,6 @@ function renderCards(events) {
         card.insertBefore(cardTopContent, card.firstChild);
         templateBase.parentNode.appendChild(clone);
     }
-
 }
 
 export default renderCards;
