@@ -1,5 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
     entry: `./src/index.js`,
@@ -7,15 +9,26 @@ module.exports = {
         path: path.resolve(__dirname, `dist`),
         filename: 'main.js'
     },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: false
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ]
+    },
     module: {
         rules: [
             {
-                // test: /\.js$/,
-                // exclude: /(node_modules|bower_components)/,
-                // use: {
-                //     loader: 'babel-loader'
-                // }
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader'
+                }
             },
+
             {
                 // STYLE
                 test: /\.(sa|sc|c)ss|css$/,

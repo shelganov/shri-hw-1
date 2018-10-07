@@ -5,211 +5,104 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="robots" content="noindex">
     <title>SHRI - homework #1</title>
     <link rel="stylesheet" href="dist/main.css">
 </head>
 <body>
-    <div class="wrapper">
-        <header class="header">
-            <div class="header__inner">
-                <a href="/" class="logo"></a>
-                <ul class="list-inline list-unstyled header__menu">
-                    <li class="header__menu-item active"><a href="#" class="header__menu-link">События</a></li>
-                    <li class="header__menu-item"><a href="#" class="header__menu-link">Сводка</a></li>
-                    <li class="header__menu-item"><a href="#" class="header__menu-link">Устройства</a></li>
-                    <li class="header__menu-item"><a href="#" class="header__menu-link">Сценарии</a></li>
-                </ul>
-                <div id="js-side-menu-trigger" class="hamburger">
-                    <div class="hamburger__icon"></div>
+    <!--<div class="wrapper">-->
+        <div class="content">
+            <header class="header">
+                <div class="header__inner">
+                    <a href="/" class="logo"></a>
+                    <div class="container">
+                    <ul class="list-inline list-unstyled header__menu">
+                        <li class="header__menu-item active"><a href="#" class="header__menu-link">События</a></li>
+                        <li class="header__menu-item"><a href="#" class="header__menu-link">Сводка</a></li>
+                        <li class="header__menu-item"><a href="#" class="header__menu-link">Устройства</a></li>
+                        <li class="header__menu-item"><a href="#" class="header__menu-link">Сценарии</a></li>
+                    </ul>
+                    <div id="js-side-menu-trigger" class="hamburger">
+                        <div class="hamburger__icon"></div>
+                    </div>
+                    </div>
                 </div>
-            </div>
-        </header>
-        <main>
-            <div class="container container-grid">
-                <h1>Лента событий</h1>
-                <div class="cards">
-                    <div class="card card_size_l">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_line-chart"></div>
-                            <div class="card__title">Еженедельный отчет по расходам ресурсов</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Сенсоры потребления</div>
-                            <div class="card__date">19:00, Сегодня</div>
-                        </div>
-                        <div class="card__text">
-                            Так держать! За последнюю неделю вы потратили на 10% меньше ресурсов, чем неделей ранее.
-                        </div>
-                        <div class="card__img">
-                            <div class="card__img-graph"></div>
-                        </div>
-                    </div>
-                    <div class="card card_size_s">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_key"></div>
-                            <div class="card__title">Дверь открыта</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Сенсор входной двери</div>
-                            <div class="card__date">18:50, Сегодня</div>
-                        </div>
-                    </div>
-                    <div class="card card_size_s">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_google-home"></div>
-                            <div class="card__title">Уборка закончена</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Пылесос</div>
-                            <div class="card__date">18:45, Сегодня</div>
-                        </div>
-                    </div>
-                    <div class="card card_size_s">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_wifi"></div>
-                            <div class="card__title">Новый пользователь</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Роутер</div>
-                            <div class="card__date">18:50, Сегодня</div>
-                        </div>
-                    </div>
-                    <div class="card card_size_m">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_thermal"></div>
-                            <div class="card__title">Изменен климатический режим</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Сенсор микроклимата</div>
-                            <div class="card__date">18:30, Сегодня</div>
-                        </div>
-                        <div class="card__text">Установлен климатический режим «Фиджи»</div>
-                        <div class="card__special">
-                            <div class="card__temperature">Температура:
-                                <span class="text-bold card__temperature-val">24</span><span class="text-bold"> C</span>
-                            </div>
-                            <div class="card__wet">Влажность:
-                                <span class="text-bold card__wet-val">80</span><span class="text-bold"> %</span>
-                            </div>
-                        </div>
+            </header>
+            <main>
+                <div class="container container-grid">
+                    <h1 class="main-title">Лента событий</h1>
+                    <div class="cards">
 
-                    </div>
-                    <div class="card card_size_m card_type_critical">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_ac-white"></div>
-                            <div class="card__title">Невозможно включить кондиционер</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Кондиционер</div>
-                            <div class="card__date">18:21, Сегодня</div>
-                        </div>
-                        <div class="card__text">В комнате открыто окно, закройте его и повторите попытку</div>
-                    </div>
-                    <div class="card card_size_m">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_music"></div>
-                            <div class="card__title">Музыка включена</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Яндекс.Станция</div>
-                            <div class="card__date">18:16, Сегодня</div>
-                        </div>
-                        <div class="card__text">Сейчас проигрывается:</div>
-                        <div class="player card__player">
-                            <div class="player__cover"></div>
-                            <div class="player__track">
-                                <div class="player__track-title">
-                                    <span class="player__track-artist">Florence & The Machine</span>
-                                    <span>-</span>
-                                    <span class="player__track-name">Big God</span>
+                        <template id="tplBase">
+                            <div class="card">
+                                <div class="card__header">
+                                    <div class="icon card__icon"></div>
+                                    <div class="card__title"></div>
                                 </div>
-                                <div class="player__track-slider track-slider">
-                                    <div class="track-slider__line">
-                                        <div class="track-slider__ctrl"></div>
-                                    </div>
-                                    <div class="player__track-length">4:31</div>
-                                </div>
+                                <div class="card__source"></div>
+                                <div class="card__time"></div>
                             </div>
-                            <div class="player__controls">
-                                <div class="player__ctrl player__ctrl_type_prev"></div>
-                                <div class="player__ctrl player__ctrl_type_next"></div>
-                                <div class="player__vol">
-                                    <div class="player__vol-slider vol-slider">
-                                        <div class="vol-slider__line">
+                        </template>
+
+                        <template id="tplPlayer">
+                            <div class="player card__player">
+                                <div class="player__cover"></div>
+                                <div class="player__track">
+                                    <div class="player__track-title">
+                                        <span class="player__track-artist"></span>
+                                        <span>-</span>
+                                        <span class="player__track-name"></span>
+                                    </div>
+                                    <div class="player__track-slider track-slider">
+                                        <div class="track-slider__line">
+                                            <div class="track-slider__ctrl"></div>
+                                        </div>
+                                        <div class="player__track-length"></div>
+                                    </div>
+                                </div>
+                                <div class="player__controls">
+                                    <div class="player__ctrl player__ctrl_type_prev"></div>
+                                    <div class="player__ctrl player__ctrl_type_next"></div>
+                                        <div class="vol-slider">
                                             <div class="vol-slider__ctrl"></div>
                                         </div>
-                                    </div>
-                                    <div class="player__vol-length">80<span>%</span></div>
+                                    <div class="vol-slider-val"><span class="vol-slider-val__length"></span>%</div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card card_size_m">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_fridge"></div>
-                            <div class="card__title">Заканчивается молоко</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Холодильник</div>
-                            <div class="card__date">17:23, Сегодня</div>
-                        </div>
-                        <div class="card__text">
-                            Кажется, в холодильнике заканчивается молоко. Вы хотите добавить его в список покупок?
-                        </div>
-                        <button class="btn">Да</button>
-                        <button class="btn">Нет</button>
-                    </div>
-                    <div class="card card_size_s">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_battery"></div>
-                            <div class="card__title">Зарядка завершена</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Оконный сенсор</div>
-                            <div class="card__date">16:22, Сегодня</div>
-                        </div>
-                        <div class="card__text">Ура! Устройство «Оконный сенсор» снова в строю!</div>
-                    </div>
-                    <div class="card card_size_s">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_kettle"></div>
-                            <div class="card__title">Вода вскипела</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Чайник</div>
-                            <div class="card__date">16:20, Сегодня</div>
-                        </div>
-                    </div>
-                    <div class="card card_size_l card_type_warning">
-                        <div class="card__header">
-                            <div class="icon icon_size_52 icon_thumb_kettle"></div>
-                            <div class="card__title">Пылесос застрял</div>
-                        </div>
-                        <div class="card__description">
-                            <div class="card__type">Сенсор движения</div>
-                            <div class="card__date">16:17, Сегодня</div>
-                        </div>
-                        <div class="card__text">
-                            Робопылесос не смог сменить свое местоположение в течение последних 3 минут. Похоже, ему
-                            нужна помощь.
-                        </div>
-                        <div class="card__img"></div>
+                        </template>
+
                     </div>
                 </div>
-            </div>
-        </main>
-        <footer class="footer">
-            <div class="footer__inner">
-                <ul class="list-inline list-unstyled footer__links">
-                    <li class="footer__links-item"><a href="#" class="footer__link">Помощь</a></li>
-                    <li class="footer__links-item"><a href="#" class="footer__link">Обратная связь</a></li>
-                    <li class="footer__links-item"><a href="#" class="footer__link">Разработчикам</a></li>
-                    <li class="footer__links-item"><a href="#" class="footer__link">Условия использования</a></li>
+            </main>
+            <footer class="footer">
+                <div class="footer__inner">
+                    <ul class="list-inline list-unstyled footer__links">
+                        <li class="footer__links-item"><a href="#" class="footer__link">Помощь</a></li>
+                        <li class="footer__links-item"><a href="#" class="footer__link">Обратная связь</a></li>
+                        <li class="footer__links-item"><a href="#" class="footer__link">Разработчикам</a></li>
+                        <li class="footer__links-item"><a href="#" class="footer__link">Условия использования</a></li>
+                        <li class="footer__links-item"><a href="https://docviewer.yandex.ru/view/1130000031416129/?*=NDquAwEqAaHVit0R666Z9nfyxRB7InVybCI6InlhLXdpa2k6Ly93aWtpLWFwaS55YW5kZXgucnUvc2hyaS0yMDE4LWlpL2hvbWV3b3JrL2FkYXB0aXZuYWphLXZqb3JzdGthL2xpY2Vuc2UucGRmIiwidGl0bGUiOiJsaWNlbnNlLnBkZiIsInVpZCI6IjExMzAwMDAwMzE0MTYxMjkiLCJ5dSI6IjYzNTM1OTM5NDE0OTU4MzYxMTciLCJub2lmcmFtZSI6ZmFsc2UsInRzIjoxNTM4ODkzMjg3MTY0fQ%3D%3D" class="footer__link">Авторские права</a></li>
+                    </ul>
+                    <div class="footer__copyright">© 2001–2017 &nbsp;ООО «Яндекс»</div>
+                </div>
+            </footer>
+        </div>
+        <div class="side-menu">
+            <div class="side-menu__content">
+                <div class="side-menu__header">
+                    <div class="logo"></div>
+                    <div class="cross side-menu__cross">×</div>
+                </div>
+                <ul class="list-unstyled side-menu__list">
+                    <li class="side-menu__item active"><a href="#" class="menu__link">События</a></li>
+                    <li class="side-menu__item"><a href="#" class="menu__link">Сводка</a></li>
+                    <li class="side-menu__item"><a href="#" class="menu__link">Устройства</a></li>
+                    <li class="side-menu__item"><a href="#" class="menu__link">Сценарии</a></li>
                 </ul>
-                <div class="footer__copyright">© 2001–2017 &nbsp;ООО «Яндекс»</div>
             </div>
-        </footer>
+        </div>
     </div>
+    <script src="dist/main.js"></script>
 </body>
 </html>
 

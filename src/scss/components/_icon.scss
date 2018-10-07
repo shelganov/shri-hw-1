@@ -5,8 +5,8 @@
   background-repeat: no-repeat;
 
   &_size_52 {
-    width: 52px;
-    height: 52px;
+    //width: 52px;
+    //height: 52px;
   }
 
   // Вариации иконок
@@ -18,20 +18,24 @@
       background-image: url('../img/key.svg');
     }
 
-    &_line-chart {
-      background-image: url('../img/line-chart.svg');
+    &_stats {
+      background-image: url('../img/stats.svg');
     }
 
-    &_google-home {
-      background-image: url('../img/google-home.svg');
+    &_robot-cleaner {
+      background-image: url('../img/robot-cleaner.svg');
     }
 
-    &_wifi {
-      background-image: url('../img/wifi.svg');
+    &_router {
+      background-image: url('../img/router.svg');
     }
 
     &_battery {
       background-image: url('../img/battery.svg');
+    }
+
+    &_cam {
+      background-image: url('../img/cam.svg');
     }
 
     &_kettle {
@@ -42,12 +46,8 @@
       background-image: url('../img/thermal.svg');
     }
 
-    &_air-conditioner {
-      background-image: url('../img/air-conditioner.svg');
-    }
-
-    &_ac-white {
-      background-image: url('../img/ac-white.svg');
+    &_ac {
+      background-image: url('../img/ac.svg');
     }
 
     &_music {

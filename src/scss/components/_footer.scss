@@ -1,19 +1,28 @@
 .footer {
+  grid-row-start: 3;
   padding: 22px 28px;
+  margin-top: 20px;
   border-top: 1px solid #F0F0F0;
 
   &__inner {
     @include clearfix;
-    padding-left: 40px;
-    padding-right: 37px;
+
+    @include m-max(768px) {
+      text-align: center;
+    }
   }
 
   &__links {
+    float: left;
+
+    @include m-max(768px) {
+      display: block;
+      float: none;
+    }
 
     &-item {
-      & + & {
-        margin-left: 15px;
-      }
+      margin-right: 15px;
+      margin-bottom: 5px;
     }
   }
 
@@ -29,5 +38,11 @@
 
   &__copyright {
     float: right;
+
+    @include m-max(768px) {
+      display: block;
+      float: none;
+      margin-top: 10px;
+    }
   }
 }
