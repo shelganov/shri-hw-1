@@ -32,10 +32,19 @@
         <main>
             <div class="container">
                 <div class="videos">
-                    <video id="video-1" class="video" controls muted autoplay></video>
-                    <video id="video-2" class="video" controls muted autoplay></video>
-                    <video id="video-3" class="video" controls muted autoplay></video>
-                    <video id="video-4" class="video" controls muted autoplay></video>
+                    <div class="card-video card-qwerty">
+                        <a href="#" class="btn btn_size_xs card-video__btn">Все камеры</a>
+                        <video id="video-1" class="video" controls muted autoplay></video>
+                    </div>
+                    <div class="card-video">
+                        <video id="video-2" class="video" controls muted autoplay></video>
+                    </div>
+                    <div class="card-video">
+                        <video id="video-3" class="video" controls muted autoplay></video>
+                    </div>
+                    <div class="card-video">
+                        <video id="video-4" class="video" controls muted autoplay></video>
+                    </div>
                 </div>
 
             </div>
@@ -105,9 +114,26 @@
             'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
         );
 
-        document.querySelector('.video').addEventListener('click', function (e) {
-            this.classList.add('full');
+        document.querySelector('.card-video').addEventListener('click', function (e) {
+            this.classList.add('card-video_size_full');
+            let video = this.querySelector('.video');
+
+//            video.style.transform = `translate3d(0px,${this.action.dy}px,0px)`;
+            let positionCenterX = (video.parentElement.offsetWidth / 2) - (video.offsetWidth / 2);
+            let positionCenterY = (video.parentElement.offsetHeight / 2) - (video.offsetHeight / 2);
+            video.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0px)`;
+
+
+        });
+
+        document.querySelector('.card-video__btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            this.parentElement.classList.remove('card-video_size_full');
+            e.stopPropagation();
+//            }
         })
+
+
     </script>
 </body>
 </html>
