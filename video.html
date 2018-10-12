@@ -30,8 +30,8 @@
             </div>
         </header>
         <main>
-            <div class="container">
-                <div class="videos">
+            <div class="videos">
+                <div class="container">
                     <div class="card-video card-qwerty">
                         <a href="#" class="btn btn_size_xs card-video__btn">Все камеры</a>
                         <video id="video-1" class="video" controls muted autoplay></video>
@@ -83,9 +83,16 @@
                 const hls = new Hls();
                 hls.loadSource(url);
                 hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+
+                hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
+                    // Ставим начальное качество минимальным
+                    hls.autoLevelEnabled = false;
+                    hls.loadLevel = 0;
                     video.play();
+                    console.log(hls);
                 });
+
+                return hls;
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8';
                 video.addEventListener('loadedmetadata', function () {
@@ -94,10 +101,12 @@
             }
         }
 
-        initVideo(
+        let hlsVideo1 = initVideo(
             document.getElementById('video-1'),
             'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
         );
+
+        // console.log(hlsVideo1);
 
         initVideo(
             document.getElementById('video-2'),
@@ -114,15 +123,46 @@
             'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
         );
 
+        /**
+         * Открытие видео в full режим
+         */
         document.querySelector('.card-video').addEventListener('click', function (e) {
-            this.classList.add('card-video_size_full');
             let video = this.querySelector('.video');
+            // let videoStartWidth = video.offsetWidth;
+            // console.log(videoStartWidth);
+            // let videoEndWidth = 0;
+            // this.classList.toggle('card-video_size_full');
+            // video.style.width = '100%';
+            // video.style.height = '100%';
+            // videoEndWidth = video.offsetWidth;
+            // console.log(videoEndWidth);
+            // video.style.width = '200px';
+            // video.style.height = 'auto';
+            // console.log(videoEndWidth / videoStartWidth);
+            // video.style.transform = `scale(${videoEndWidth} / ${videoStartWidth})`;
+            // this.classList.toggle('card-video_size_full');
+            // console.log()
 
-//            video.style.transform = `translate3d(0px,${this.action.dy}px,0px)`;
+            this.classList.toggle('card-video_size_full');
             let positionCenterX = (video.parentElement.offsetWidth / 2) - (video.offsetWidth / 2);
+            console.log(positionCenterX);
             let positionCenterY = (video.parentElement.offsetHeight / 2) - (video.offsetHeight / 2);
-            video.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0px)`;
+            // video.style.transform = `translateX(${positionCenterX}px)`;
+            // video.style.transform = `translateY(${positionCenterY}px)`;
+            video.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0)`;
+            // video.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0px)`;
+            // console.log(document.getElementById('video-1'))
 
+            setTimeout(function () {
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.transform = `translate3d(0px, 0px, 0)`;
+            },200)
+
+
+            // Улучшаем качество в full размере
+            hlsVideo1.loadLevel = 2;
+            console.log(hlsVideo1);
 
         });
 
@@ -130,7 +170,6 @@
             e.preventDefault();
             this.parentElement.classList.remove('card-video_size_full');
             e.stopPropagation();
-//            }
         })
 
 
