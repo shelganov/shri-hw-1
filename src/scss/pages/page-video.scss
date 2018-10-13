@@ -7,40 +7,71 @@
   //grid-template-rows: 200px 200px;
 }
 
+
+/* Карточка видео */
 .card-video {
+  position: relative;
   display: inline-block;
   width: 200px;
+  height: 200px;
+  transition: .3s all;
+  overflow: hidden;
+  z-index: 2;
+  //transform: scale(0.1);
 
-  &__btn {
+  &__btn-cameras {
     display: none;
     position: absolute;
     right: 20px;
     top: 20px;
   }
 
+  &__brightness {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 60px;
+  }
 
+  &__contrast {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 100px;
+  }
+
+  &__input {
+    width: 50px;
+  }
+
+
+  // --------------------
   // Вариация
   &_size_full {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    width: auto;
+    //position: absolute;
+    //left: 0;
+    //right: 0;
+    //top: 0;
+    //bottom: 0;
+    //margin: auto;
+    //width: auto;
+    //width: 100%;
+    //height: 100%;
+    //width: auto;
+    //height: auto;
     z-index: 10;
-
+    background-color: #fff;
 
     .video {
-      //position: absolute;
-      background-color: #fff;
-      //transition: .3s all;
-      //transform-origin: top left;
-      //width: 100%;
-      //height: 100%;
+      width: 100%;
+      height: 100%;
+      transform: scale(1);
+      object-fit: contain;
     }
 
-    .card-video__btn {
+    .card-video__btn-cameras,
+    .card-video__brightness,
+    .card-video__contrast {
       display: block;
       z-index: 10;
     }
@@ -48,8 +79,11 @@
 }
 
 .video {
-  width: 200px;
-  //width: 100%;
-  //height: 100%;
+  //width: 200px;
+  //height: 200px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   transition: .3s all;
 }

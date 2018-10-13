@@ -21,7 +21,7 @@
                     <li class="header__menu-item"><a href="#" class="header__menu-link">Сводка</a></li>
                     <li class="header__menu-item"><a href="#" class="header__menu-link">Устройства</a></li>
                     <li class="header__menu-item"><a href="#" class="header__menu-link">Сценарии</a></li>
-                    <li class="header__menu-item active"><a href="/video" class="header__menu-link">Видео</a></li>
+                    <li class="header__menu-item active"><a href="video.html" class="header__menu-link">Видео</a></li>
                 </ul>
                 <div id="js-side-menu-trigger" class="hamburger">
                     <div class="hamburger__icon"></div>
@@ -32,17 +32,45 @@
         <main>
             <div class="videos">
                 <div class="container">
-                    <div class="card-video card-qwerty">
-                        <a href="#" class="btn btn_size_xs card-video__btn">Все камеры</a>
+                    <div class="card-video">
+                        <a href="#" class="btn btn_size_xs card-video__btn-cameras">Все камеры</a>
+                        <label class="card-video__brightness">Яркость, %:
+                            <input type="number" class="card-video__input card-video__input-brightness" value="100">
+                        </label>
+                        <label class="card-video__contrast">Контрастность, %:
+                            <input type="number" class="card-video__input card-video__input-contrast" value="100">
+                        </label>
                         <video id="video-1" class="video" controls muted autoplay></video>
                     </div>
                     <div class="card-video">
+                        <a href="#" class="btn btn_size_xs card-video__btn-cameras">Все камеры</a>
+                        <label class="card-video__brightness">Яркость, %:
+                            <input type="number" class="card-video__input card-video__input-brightness" value="100">
+                        </label>
+                        <label class="card-video__contrast">Контрастность, %:
+                            <input type="number" class="card-video__input card-video__input-contrast" value="100">
+                        </label>
+                        <div class="volume"></div>
                         <video id="video-2" class="video" controls muted autoplay></video>
                     </div>
                     <div class="card-video">
+                        <a href="#" class="btn btn_size_xs card-video__btn-cameras">Все камеры</a>
+                        <label class="card-video__brightness">Яркость, %:
+                            <input type="number" class="card-video__input card-video__input-brightness" value="100">
+                        </label>
+                        <label class="card-video__contrast">Контрастность, %:
+                            <input type="number" class="card-video__input card-video__input-contrast" value="100">
+                        </label>
                         <video id="video-3" class="video" controls muted autoplay></video>
                     </div>
                     <div class="card-video">
+                        <a href="#" class="btn btn_size_xs card-video__btn-cameras">Все камеры</a>
+                        <label class="card-video__brightness">Яркость, %:
+                            <input type="number" class="card-video__input card-video__input-brightness" value="100">
+                        </label>
+                        <label class="card-video__contrast">Контрастность, %:
+                            <input type="number" class="card-video__input card-video__input-contrast" value="100">
+                        </label>
                         <video id="video-4" class="video" controls muted autoplay></video>
                     </div>
                 </div>
@@ -69,108 +97,238 @@
                 <div class="cross side-menu__cross">×</div>
             </div>
             <ul class="list-unstyled side-menu__list">
-                <li class="side-menu__item active"><a href="#" class="menu__link">События</a></li>
+                <li class="side-menu__item"><a href="#" class="menu__link">События</a></li>
                 <li class="side-menu__item"><a href="#" class="menu__link">Сводка</a></li>
                 <li class="side-menu__item"><a href="#" class="menu__link">Устройства</a></li>
                 <li class="side-menu__item"><a href="#" class="menu__link">Сценарии</a></li>
+                <li class="side-menu__item active"><a href="video.html" class="menu__link">Видео</a></li>
             </ul>
         </div>
     </div>
     <!--<script src="dist/main.js"></script>-->
     <script>
-        function initVideo(video, url) {
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
 
-                hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
-                    // Ставим начальное качество минимальным
-                    hls.autoLevelEnabled = false;
-                    hls.loadLevel = 0;
-                    video.play();
-                    console.log(hls);
-                });
+//        class Stream {
+//            constructor(video, url) {
+//                if (Hls.isSupported()) {
+//                    const hls = new Hls();
+//                    hls.loadSource(url);
+//                    hls.attachMedia(video);
+//
+//                    hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
+//                        // Ставим начальное качество минимальным
+//                        console.log(hls);
+//                        hls.autoLevelEnabled = false;
+//                        hls.loadLevel = 0;
+//                        video.play();
+//                    });
+//
+////                    return hls;
+//                }
+//                else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+//                    video.src = url;
+//                    video.addEventListener('loadedmetadata', function () {
+//                        video.play();
+//                    });
+//                }
+//            }
+//        }
 
-                return hls;
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8';
-                video.addEventListener('loadedmetadata', function () {
-                    video.play();
-                });
-            }
-        }
+function initVideo(video, url) {
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
 
-        let hlsVideo1 = initVideo(
-            document.getElementById('video-1'),
-            'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
-        );
-
-        // console.log(hlsVideo1);
-
-        initVideo(
-            document.getElementById('video-2'),
-            'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8'
-        );
-
-        initVideo(
-            document.getElementById('video-3'),
-            'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8'
-        );
-
-        initVideo(
-            document.getElementById('video-4'),
-            'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
-        );
-
-        /**
-         * Открытие видео в full режим
-         */
-        document.querySelector('.card-video').addEventListener('click', function (e) {
-            let video = this.querySelector('.video');
-            // let videoStartWidth = video.offsetWidth;
-            // console.log(videoStartWidth);
-            // let videoEndWidth = 0;
-            // this.classList.toggle('card-video_size_full');
-            // video.style.width = '100%';
-            // video.style.height = '100%';
-            // videoEndWidth = video.offsetWidth;
-            // console.log(videoEndWidth);
-            // video.style.width = '200px';
-            // video.style.height = 'auto';
-            // console.log(videoEndWidth / videoStartWidth);
-            // video.style.transform = `scale(${videoEndWidth} / ${videoStartWidth})`;
-            // this.classList.toggle('card-video_size_full');
-            // console.log()
-
-            this.classList.toggle('card-video_size_full');
-            let positionCenterX = (video.parentElement.offsetWidth / 2) - (video.offsetWidth / 2);
-            console.log(positionCenterX);
-            let positionCenterY = (video.parentElement.offsetHeight / 2) - (video.offsetHeight / 2);
-            // video.style.transform = `translateX(${positionCenterX}px)`;
-            // video.style.transform = `translateY(${positionCenterY}px)`;
-            video.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0)`;
-            // video.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0px)`;
-            // console.log(document.getElementById('video-1'))
-
-            setTimeout(function () {
-                video.style.width = '100%';
-                video.style.height = '100%';
-                video.style.transform = `translate3d(0px, 0px, 0)`;
-            },200)
-
-
-            // Улучшаем качество в full размере
-            hlsVideo1.loadLevel = 2;
-            console.log(hlsVideo1);
-
+        hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
+            // Ставим начальное качество минимальным
+            hls.autoLevelEnabled = false;
+            hls.loadLevel = 0;
+            video.play();
+            console.log(hls);
         });
 
-        document.querySelector('.card-video__btn').addEventListener('click', function (e) {
-            e.preventDefault();
-            this.parentElement.classList.remove('card-video_size_full');
-            e.stopPropagation();
-        })
+        return hls;
+    }
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = url;
+        video.addEventListener('loadedmetadata', function () {
+            video.play();
+        });
+    }
+}
+
+//        let video1 = new Stream(
+//            document.getElementById('video-1'),
+//            'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
+//        );
+//
+//        let video2 = new Stream(
+//                document.getElementById('video-2'),
+//                'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8'
+//        );
+//
+//        let video3 = new Stream(
+//                document.getElementById('video-3'),
+//                'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8'
+//        );
+//
+//        let video4 = new Stream(
+//                document.getElementById('video-4'),
+//                'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
+//        );
+
+let hlsVideo1 = initVideo(
+    document.getElementById('video-1'),
+    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
+);
+
+
+let hlsVideo2 = initVideo(
+    document.getElementById('video-2'),
+    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8'
+);
+
+let hlsVideo3 = initVideo(
+    document.getElementById('video-3'),
+    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8'
+);
+
+let hlsVideo4 = initVideo(
+    document.getElementById('video-4'),
+    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
+);
+
+
+
+let container = document.querySelector('.videos');
+
+/**
+ * Открытие видео в full режим
+ */
+let cards = document.querySelectorAll('.card-video');
+
+for (let i = 0; i < cards.length; i++) {
+    cards[i].addEventListener('click', function (e) {
+        e.preventDefault();
+
+        let cardCoords = this.getBoundingClientRect();
+        console.log(cardCoords)
+
+        let video = this.querySelector('.video');
+
+//        console.log(this.getBoundingClientRect());
+
+//        let cardStartPosX = this.offsetLeft;
+//        let cardStartPosY = this.offsetTop;
+
+
+//        this.classList.add('card-video_size_full');
+
+//        console.log(container.offsetWidth)
+//        console.log(container.offsetHeight)
+
+
+
+
+//        cards[i].style.transform = `translate3d(200px, 0px, 0px)`;
+        let positionCenterX = (container.offsetWidth / 2) - (this.offsetWidth / 2);
+        let positionCenterY = (container.offsetHeight / 2) - (this.offsetHeight / 2);
+
+
+
+//        this.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0)`;
+//        this.classList.add('card-video_size_full');
+
+        setTimeout(() => {
+//            video.style.width = '100%';
+//            video.style.height = '100%';
+//            this.classList.add('card-video_size_full');
+//            this.style.transform = `translate3d(0px, 0px, 0)`;
+        }, 100);
+
+
+//            video.parentNode.querySelector('video')
+        // Улучшаем качество в full размере
+        hlsVideo1.loadLevel = 2;
+//        console.log(hlsVideo1.audioTracks());
+    });
+}
+
+/**
+ * Закрытие full режима
+ * @type {NodeList}
+ */
+let cardsBtn = document.querySelectorAll('.card-video__btn-cameras');
+
+for (let i = 0; i < cardsBtn.length; i++) {
+    cardsBtn[i].addEventListener('click', function (e) {
+        console.log(`zzzzz`)
+        e.preventDefault();
+        this.parentElement.classList.remove('card-video_size_full');
+        e.stopPropagation();
+    });
+}
+
+/**
+ * Изменение яркости
+ * @type {NodeList}
+ */
+let cardsInputBrightness = document.querySelectorAll('.card-video__input-brightness');
+
+for (let i = 0; i < cardsInputBrightness.length; i++) {
+    cardsInputBrightness[i].addEventListener('input', function (e) {
+        this.closest('.card-video').querySelector('.video').style.filter = `brightness(${this.value}%)`;
+    });
+}
+
+/**
+ * Изменение яркости
+ * @type {NodeList}
+ */
+let cardsInputContrast = document.querySelectorAll('.card-video__input-contrast');
+
+for (let i = 0; i < cardsInputContrast.length; i++) {
+    cardsInputContrast[i].addEventListener('input', function (e) {
+        this.closest('.card-video').querySelector('.video').style.filter = `contrast(${this.value}%)`;
+    });
+}
+
+/**
+ * Анализатор звука
+ */
+//let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+//var convolver = audioCtx.createConvolver();
+//
+//var soundSource, concertHallBuffer;
+//
+//ajaxRequest = new XMLHttpRequest();
+//ajaxRequest.open('GET', document.getElementById('video-2'), true);
+//ajaxRequest.responseType = 'arraybuffer';
+//
+//
+//ajaxRequest.onload = function() {
+//    var audioData = ajaxRequest.response;
+//    audioCtx.decodeAudioData(audioData, function(buffer) {
+//        concertHallBuffer = buffer;
+//        soundSource = audioCtx.createBufferSource();
+//        soundSource.buffer = concertHallBuffer;
+//    }, function(e){"Error with decoding audio data" + e.err});
+//}
+//
+//ajaxRequest.send();
+//
+//convolver.buffer = concertHallBuffer;
+
+
+//let source = context.createMediaElementSource(document.querySelector('#video-2'));
+//let gainNode = context.createGain();
+//source.connect(gainNode);
+// Create a gain node.
+// Connect the source to the gain node.
+//console.log(source )
+// Connect the gain node to the destination.
+//gainNode.connect(context.destination);
 
 
     </script>
