@@ -7,83 +7,134 @@
   //grid-template-rows: 200px 200px;
 }
 
-
-/* Карточка видео */
-.card-video {
+.videotiles {
   position: relative;
-  display: inline-block;
-  width: 200px;
-  height: 200px;
-  transition: .3s all;
-  overflow: hidden;
-  z-index: 2;
-  //transform: scale(0.1);
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 5px;
 
+}
+
+.videotile {
+  overflow: hidden;
+}
+
+.card-video {
+  transition: .2s all;
+  z-index: 2;
+  &.active {
+    position: absolute;
+    background-color: #fff;
+  }
+}
+
+.video {
+  width: 100%;
+  //height: 100%;
+  //object-fit: cover;
+  //object-position: center;
+  z-index: 5;
+}
+
+
+
+
+
+
+
+
+
+
+
+//
+///* Карточка видео */
+.card-video {
+  //  width: 100%;
+  //  height: 100%;
+  //  //position: relative;
+  //  //display: inline-block;
+  //  //width: 200px;
+  //  //height: 200px;
+  //  //transition: .3s all;
+  //  //overflow: hidden;
+  //  //z-index: 2;
+  //
+  //  //transform: scale(0.1);
+  //
   &__btn-cameras {
     display: none;
     position: absolute;
     right: 20px;
     top: 20px;
   }
-
+  //
   &__brightness {
     display: none;
     position: absolute;
     right: 20px;
     top: 60px;
   }
-
+  //
   &__contrast {
     display: none;
     position: absolute;
     right: 20px;
     top: 100px;
   }
+  //
+  //  &__input {
+  //    width: 50px;
+  //  }
+  //
+  //
+  //  // --------------------
+  //  // Вариация
+  //  &_size_full {
+  //    //position: absolute;
+  //    //left: 0;
+  //    //right: 0;
+  //    //top: 0;
+  //    //bottom: 0;
+  //    //margin: auto;
+  //    //width: auto;
+  //    //width: 100%;
+  //    //height: 100%;
+  //    //width: auto;
+  //    //height: auto;
+  //    z-index: 10;
+  //    background-color: #fff;
+  //
+  //    .video {
+  //      width: 100%;
+  //      height: 100%;
+  //      transform: scale(1);
+  //      object-fit: contain;
+  //    }
+  //
+  //    .card-video__btn-cameras,
+  //    .card-video__brightness,
+  //    .card-video__contrast {
+  //      display: block;
+  //      z-index: 10;
+  //    }
+  //  }
+  //}
+  //
+  //.video {
+  //  //display: none;
+  //  //width: 200px;
+  //  //height: 200px;
+  //  width: 100%;
+  //  height: 100%;
+  //  object-fit: cover;
+  //  object-position: center;
+  //  transition: .3s all;
+  //}
 
-  &__input {
-    width: 50px;
-  }
-
-
-  // --------------------
-  // Вариация
-  &_size_full {
-    //position: absolute;
-    //left: 0;
-    //right: 0;
-    //top: 0;
-    //bottom: 0;
-    //margin: auto;
-    //width: auto;
-    //width: 100%;
-    //height: 100%;
-    //width: auto;
-    //height: auto;
-    z-index: 10;
-    background-color: #fff;
-
-    .video {
-      width: 100%;
-      height: 100%;
-      transform: scale(1);
-      object-fit: contain;
-    }
-
-    .card-video__btn-cameras,
-    .card-video__brightness,
-    .card-video__contrast {
-      display: block;
-      z-index: 10;
-    }
-  }
-}
-
-.video {
-  //width: 200px;
-  //height: 200px;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: .3s all;
+  //.video-canvas {
+  //  display: none;
+  //  width: 100%;
+  //  height: 100%;
 }
