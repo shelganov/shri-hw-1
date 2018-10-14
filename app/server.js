@@ -14,24 +14,22 @@ const OPTIONS = {
 // const statusHandler = require('./status');
 const JSON_MAIN = JSON.parse(fs.readFileSync(path.join(__dirname, '/events.json')));
 const JSON_EVENTS = JSON_MAIN.events;
+// Метод добавления нулей в числа
 const numTo2Digit = require('./utility');
 
 
-app.use((req, res, next) => {
-    // res.append('Access-Control-Allow-Origin', ['*']);
-    // res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    // res.append('Access-Control-Allow-Headers', 'Content-Type');
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Headers', 'origin, content-type, accept');
-    next();
-});
+// app.use((req, res, next) => {
+    // res.set('Access-Control-Allow-Origin', '*');
+    // res.set('Access-Control-Allow-Headers', 'origin, content-type, accept');
+    // next();
+// });
 
 /**
  * Маршрут - корень сайта
  */
-app.get('/', (req, res) => {
-    res.sendFile((path.join(__dirname + '/index.html')));
-});
+// app.get('/', (req, res) => {
+    // res.sendFile((path.join(__dirname + '/index.html')));
+// });
 
 /**
  * Маршрут - страница status
@@ -107,6 +105,10 @@ app.get('/api/events', (req, res) => {
  */
 app.use(function(req, res, next) {
     res.status(404).send('<h1>Page not found</h1>');
+});
+
+app.use(function (err, req, res, next) {
+    res.status(500).end('Server error');
 });
 
 /**
