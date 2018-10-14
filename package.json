@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "prod": "webpack --mode production",
-    "dev": "webpack --watch --mode development"
+    "dev": "webpack --watch --mode development",
+    "node": "node app/server.js"
   },
   "repository": {
     "type": "git",
@@ -34,5 +35,9 @@
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "http": "0.0.0"
   }
 }
