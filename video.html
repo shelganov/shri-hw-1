@@ -37,12 +37,14 @@
                             <video id="video-1" class="video" muted autoplay></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
-                                    <label class="card-video__brightness">Яркость:
+                                    <div class="card-video__control">
+                                        <div class="card-video__brightness">Яркость:</div>
                                         <input type="range" class="card-video__input card-video__input-brightness" value="100" min="0" max="200">
-                                    </label>
-                                    <label class="card-video__contrast">Контрастность:
+                                    </div>
+                                    <div class="card-video__control">
+                                        <div class="card-video__contrast">Контрастность:</div>
                                         <input type="range" class="card-video__input card-video__input-contrast" value="100" min="0" max="200">
-                                    </label>
+                                    </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
                                     <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
@@ -55,12 +57,14 @@
                             <video id="video-2" class="video" muted autoplay></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
-                                    <label class="card-video__brightness">Яркость:
+                                    <div class="card-video__control">
+                                        <div class="card-video__brightness">Яркость:</div>
                                         <input type="range" class="card-video__input card-video__input-brightness" value="100" min="0" max="200">
-                                    </label>
-                                    <label class="card-video__contrast">Контрастность:
+                                    </div>
+                                    <div class="card-video__control">
+                                        <div class="card-video__contrast">Контрастность:</div>
                                         <input type="range" class="card-video__input card-video__input-contrast" value="100" min="0" max="200">
-                                    </label>
+                                    </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
                                     <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
@@ -73,12 +77,14 @@
                             <video id="video-3" class="video" muted autoplay></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
-                                    <label class="card-video__brightness">Яркость:
+                                    <div class="card-video__control">
+                                        <div class="card-video__brightness">Яркость:</div>
                                         <input type="range" class="card-video__input card-video__input-brightness" value="100" min="0" max="200">
-                                    </label>
-                                    <label class="card-video__contrast">Контрастность:
+                                    </div>
+                                    <div class="card-video__control">
+                                        <div class="card-video__contrast">Контрастность:</div>
                                         <input type="range" class="card-video__input card-video__input-contrast" value="100" min="0" max="200">
-                                    </label>
+                                    </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
                                     <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
@@ -91,12 +97,14 @@
                             <video id="video-4" class="video" muted autoplay></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
-                                    <label class="card-video__brightness">Яркость:
+                                    <div class="card-video__control">
+                                        <div class="card-video__brightness">Яркость:</div>
                                         <input type="range" class="card-video__input card-video__input-brightness" value="100" min="0" max="200">
-                                    </label>
-                                    <label class="card-video__contrast">Контрастность:
+                                    </div>
+                                    <div class="card-video__control">
+                                        <div class="card-video__contrast">Контрастность:</div>
                                         <input type="range" class="card-video__input card-video__input-contrast" value="100" min="0" max="200">
-                                    </label>
+                                    </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
                                     <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
@@ -226,20 +234,16 @@ function initVideos(videosContainer, videos) {
                 if (container.classList.contains('active'))
                     return;
 
-                this.muted = false;
-
-
-
                 let videoData = this.getBoundingClientRect();
                 let videoWrap = this.parentNode;
                 videos[i].style.width = videoData.width + 'px';
                 videos[i].style.height = videoData.height + 'px';
-
-                console.log(videosContainer.offsetHeight / videoData.height);
-
-                // Задаем absolute обертке видео
-//            videoWrap.style.position = 'absolute';
                 this.parentNode.classList.add('active');
+                this.muted = false;
+
+
+                console.log(videosContainer.offsetHeight);
+
 
 
                 // Позиции центра экрана
@@ -261,16 +265,15 @@ function initVideos(videosContainer, videos) {
 
         for (let i = 0; i < cardsBtn.length; i++) {
             cardsBtn[i].addEventListener('click', function (e) {
-                this.closest('.card-video').style.transform = `translate3d(0,0,0) scale(1)`;
+                e.preventDefault();
+                let parent = this.closest('.card-video');
+                parent.querySelector('video').muted = true;
+                parent.style.transform = null;
 
                 setTimeout( () => {
-                    this.closest('.card-video').classList.remove('active');
+                    parent.classList.remove('active');
+                },200);
 
-                },200)
-
-                console.log(this.closest('.card-video'))
-                e.preventDefault();
-                this.parentElement.classList.remove('card-video_size_full');
                 e.stopPropagation();
             });
         }
