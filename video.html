@@ -191,7 +191,7 @@
 //            }
 //        }
 
-function initVideo(video, url) {
+function initHls(video, url) {
     if (Hls.isSupported()) {
         const hls = new Hls();
         hls.loadSource(url);
@@ -199,10 +199,10 @@ function initVideo(video, url) {
 
         hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
             // Ставим начальное качество минимальным
-            // hls.autoLevelEnabled = false;
-            // hls.loadLevel = 0;
+             hls.autoLevelEnabled = false;
+             hls.loadLevel = 0;
             video.play();
-            console.log(hls);
+//            console.log(hls);
         });
 
         return hls;
@@ -215,46 +215,122 @@ function initVideo(video, url) {
     }
 }
 
-let hlsVideo1 = initVideo(
-    document.getElementById('video-1'),
-    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
-);
-
-
-let hlsVideo2 = initVideo(
-    document.getElementById('video-2'),
-    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8'
-);
-
-let hlsVideo3 = initVideo(
-    document.getElementById('video-3'),
-    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8'
-);
-
-let hlsVideo4 = initVideo(
-    document.getElementById('video-4'),
-    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
-);
+//let hlsVideo1 = initVideo(
+//    document.getElementById('video-1'),
+//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
+//);
+//
+//
+//let hlsVideo2 = initVideo(
+//    document.getElementById('video-2'),
+//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8'
+//);
+//
+//let hlsVideo3 = initVideo(
+//    document.getElementById('video-3'),
+//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8'
+//);
+//
+//let hlsVideo4 = initVideo(
+//    document.getElementById('video-4'),
+//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
+//);
 
 
 function initVideocontrol() {
 
-    let SELECTED = false;
-    let videoActive = null;
+    let activeVideo = {
+        el: null,
+        volume: null
+    };
+
+    const streams = [
+        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8',
+        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8',
+        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8',
+        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
+    ];
+
+    const hlsArray = [];
+
+    /* Массив источников*/
+    let audioSources = {};
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    // Аудио-контекст
+    const context = new AudioContext();
+    const node = context.createScriptProcessor(2048, 1, 1);
+    node.connect(context.destination);
+    // Анализатор
+    const analyser = context.createAnalyser();
+    analyser.smoothingTimeConstant = 0.3;
+    analyser.fftSize = 512;
+    analyser.connect(node);
+    let activeVolume = null;
 
     // Все видео
     const videos = document.querySelectorAll('.video');
     // Кнопка "Все камеры"
     const cardsBtn = document.querySelectorAll('.card-video__btn');
-    // Контейнер плиток
-    // let videosContainer = document.querySelector('.videotiles');
 
+    /**
+     * Подключает определенную камеру
+     **/
+    function connectAudioSource(video) {
+        let id = video.id;
+
+        if (!audioSources[id]) {
+            audioSources[id] = context.createMediaElementSource(video);
+        }
+
+        audioSources[id].connect(analyser);
+        audioSources[id].connect(context.destination);
+
+    }
+
+    /**
+     * Событие поступление данных
+     **/
+    node.onaudioprocess = () => {
+
+        if (activeVolume) {
+            const volumeArray = new Uint8Array(analyser.frequencyBinCount);
+            // Получаем данные от анализатора
+            analyser.getByteFrequencyData(volumeArray);
+            const volumeAverage = getAverageVolume(volumeArray);
+            console.log(activeVolume.canvas.width);
+
+            activeVolume.clearRect(0, 0, activeVolume.canvas.width, activeVolume.canvas.height);
+            activeVolume.fillStyle = '#ffdb4d';
+            activeVolume.fillRect(0, 0, 2 * volumeAverage, activeVolume.canvas.height);
+        }
+    };
+
+    /**
+     * Считает среднее массива частот с источника
+     **/
+    function getAverageVolume(array) {
+        let length = array.length;
+        let sum = 0;
+
+        for (let i = 0; i < array.length; i++) {
+            sum += array[i];
+        }
+
+        return sum / length;
+    }
+
+
+    // Событие - открытие окна
     for (let i = 0; i < videos.length; i++) {
+        hlsArray[i] = initHls(videos[i], streams[i]);
+//        console.log(hlsArray[i]);
+
         videos[i].addEventListener('click', () => {
             openFullScreen(videos[i]);
         });
     }
 
+    // Событие - закрытие окна
     for (let i = 0; i < cardsBtn.length; i++) {
         cardsBtn[i].addEventListener('click', (e) => {
             closeFullScreen(cardsBtn[i], e);
@@ -262,11 +338,11 @@ function initVideocontrol() {
     }
 
     /**
-     * Открытие фулл скрина
+     * Открытие фулл режима
      **/
     function openFullScreen(video) {
         const container = video.parentNode;
-        // const volume = container.querySelector('.card-video__volume').getContext('2d');
+        activeVolume = container.querySelector('.card-video__volume').getContext("2d");
 
         if (container.classList.contains('active'))
             return;
@@ -274,25 +350,17 @@ function initVideocontrol() {
         // Инф-ия о блоке видео
         const videoData = video.getBoundingClientRect();
         const videoWrap = video.parentNode;
-        video.style.width = videoData.width + 'px';
-        video.style.height = videoData.height + 'px';
+//        video.style.width = videoData.width + 'px';
+//        video.style.height = videoData.height + 'px';
         container.classList.add('active');
         video.muted = false;
 
-        // const source = context.createMediaElementSource(videos[i]);
-        Analyze(video);
-
-        // volume.fillStyle = "red";
-        // volume.fillRect(0, 0, 100, 50);
-
-        // console.log(videosContainer.offsetHeight);
-
+        connectAudioSource(video);
 
         // Позиции центра экрана
         let positionCenterX = (document.body.clientWidth / 2) - videoData.x - (videoData.width / 2);
         let positionCenterY = (document.body.clientHeight / 2) - videoData.y - (videoData.height / 2);
         videoWrap.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0) scale(2)`;
-    // })
 
     // hlsVideo1.loadLevel = 2;
         // }
@@ -303,19 +371,18 @@ function initVideocontrol() {
      * @type {NodeList}
      */
     function closeFullScreen(button, e) {
-        // console.log(e);
         e.preventDefault();
         const parent = button.closest('.card-video');
-        parent.querySelector('video').muted = true;
+        const video = parent.querySelector('video');
         parent.style.transform = null;
+        video.muted = true;
+        audioSources[video.id].disconnect();
+//        video.disconnect();
 
         setTimeout(() => {
             parent.classList.remove('active');
         }, 200);
 
-        // SELECTED = false;
-        videoActive.disconnect();
-        // videoActive = null;
         e.stopPropagation();
     }
 
@@ -343,199 +410,41 @@ function initVideocontrol() {
         });
     }
 
-    /**
-     * Анализатор
-     **/
-    const Analyze = function (video) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        // Аудио-контекст
-        const context = new AudioContext();
-        const node = context.createScriptProcessor(2048, 1, 1);
-        // Анализатор
-        const analyser = context.createAnalyser();
-        analyser.smoothingTimeConstant = 0.3;
-        analyser.fftSize = 512;
-
-        // console.log(context.createMediaElementSource(video));
-        // if (!SELECTED) {
-        // Источник звука
-
-        if (!videoActive) {
-            console.log(`booobi`)
-            videoActive = context.createMediaElementSource(video);
-             // = source;
-
-            // console.log(videoActive);
-            videoActive.connect(analyser);
-            analyser.connect(node);
-        }
-        // SELECTED = true;
-        // }
-
-        //Связываем все с выходом
-        node.connect(context.destination);
-        videoActive.connect(context.destination);
 
 
-        // На вход передаются новые даннные
-        node.onaudioprocess = () => {
-            const volumeArray = new Uint8Array(analyser.frequencyBinCount);
-            // Получаем данные от анализатора
-            analyser.getByteFrequencyData(volumeArray);
-            const volumeAverage = getAverageVolume(volumeArray);
+    function drawSpectrogram(array) {
 
+        // copy the current canvas onto the temp canvas
+        var canvas = document.getElementById("canvas");
 
-            if (!video.paused) {
-                const volume = video.parentNode.querySelector('.card-video__volume').getContext('2d');
-                volume.fillRect(0, 0, volumeAverage, 5);
-                // console.log(volumeAverage)
-                // if (typeof this.update === "function") {
-                //     return this.update(this.volumeArray);
-            } else {
-                return 0;
-            }
-        };
+        tempCtx.drawImage(canvas, 0, 0, 800, 512);
 
-        function getAverageVolume(array) {
-            let length = array.length;
-            let sum = 0;
+        // iterate over the elements from the array
+        for (var i = 0; i < array.length; i++) {
+            // draw each pixel with the specific color
+            var value = array[i];
+            ctx.fillStyle = hot.getColor(value).hex();
 
-            for (let i = 0; i < array.length; i++) {
-                sum += array[i];
-            }
-
-            return sum / length;
+            // draw the line at the right side of the canvas
+            ctx.fillRect(800 - 1, 512 - i, 1, 1);
         }
 
-        // setInterval(() => {
-        //     console.log(getAverageVolume(this.volumeArray))
-        // },100);
-        //Подписываемся на событие
-        // video.addEventListener("canplay", function () {
-        //     console.log('plaaaay')
-        // });
+        // set translate on the canvas
+        ctx.translate(-1, 0);
+        // draw the copied image
+        ctx.drawImage(tempCanvas, 0, 0, 800, 512, 0, 0, 800, 512);
+
+        // reset the transformation matrix
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    /**
-     * Рисует шкалу звука
-     **/
-    function draw() {
-
-    }
-
-    // initStreams(videosContainer, videos);
 }
-
-// function initAnalyzators() {
-//     const audios = document.querySelectorAll('.card-video__audio');
-//
-//     for (let i = 0; i < audios.length; i++) {
-//         audios[i].getContext('2d');
-//     }
-//
-//     let AudioContext = window.AudioContext || window.webkitAudioContext;
-//     const audioContext = new AudioContext ();
-//
-//     const node = this.context.createScriptProcessor(2048, 1, 1);
-//     const analyser = this.context.createAnalyser();
-//     analyser.smoothingTimeConstant = 0.3;
-//     analyser.fftSize = 512;
-//
-//     const bands = new Uint8Array(this.analyser.frequencyBinCount);
-// }
 
 
 document.addEventListener('DOMContentLoaded', () => {
     initVideocontrol();
 })
 
-
-
-
-
-function activeCard(card) {
-//    e.preventDefault();
-
-//    this = _this;
-
-    let cardCoords = card.getBoundingClientRect();
-    console.log(cardCoords)
-
-    let video = card.querySelector('.video');
-
-//        console.log(this.getBoundingClientRect());
-
-//        let cardStartPosX = this.offsetLeft;
-//        let cardStartPosY = this.offsetTop;
-
-
-//        this.classList.add('card-video_size_full');
-
-//        console.log(container.offsetWidth)
-//        console.log(container.offsetHeight)
-
-
-//        cards[i].style.transform = `translate3d(200px, 0px, 0px)`;
-    let positionCenterX = (container.offsetWidth / 2) - (card.offsetWidth / 2);
-    let positionCenterY = (container.offsetHeight / 2) - (card.offsetHeight / 2);
-
-
-//        this.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0)`;
-//        this.classList.add('card-video_size_full');
-
-    setTimeout(() => {
-//            video.style.width = '100%';
-//            video.style.height = '100%';
-//            this.classList.add('card-video_size_full');
-//            this.style.transform = `translate3d(0px, 0px, 0)`;
-    }, 100);
-
-
-//            video.parentNode.querySelector('video')
-    // Улучшаем качество в full размере
-
-//        console.log(hlsVideo1.audioTracks());
-}
-
-
-
-
-
-/**
- * Анализатор звука
- */
-//let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-//var convolver = audioCtx.createConvolver();
-//
-//var soundSource, concertHallBuffer;
-//
-//ajaxRequest = new XMLHttpRequest();
-//ajaxRequest.open('GET', document.getElementById('video-2'), true);
-//ajaxRequest.responseType = 'arraybuffer';
-//
-//
-//ajaxRequest.onload = function() {
-//    var audioData = ajaxRequest.response;
-//    audioCtx.decodeAudioData(audioData, function(buffer) {
-//        concertHallBuffer = buffer;
-//        soundSource = audioCtx.createBufferSource();
-//        soundSource.buffer = concertHallBuffer;
-//    }, function(e){"Error with decoding audio data" + e.err});
-//}
-//
-//ajaxRequest.send();
-//
-//convolver.buffer = concertHallBuffer;
-
-
-//let source = context.createMediaElementSource(document.querySelector('#video-2'));
-//let gainNode = context.createGain();
-//source.connect(gainNode);
-// Create a gain node.
-// Connect the source to the gain node.
-//console.log(source )
-// Connect the gain node to the destination.
-//gainNode.connect(context.destination);
 
 
     </script>
