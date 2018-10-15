@@ -47,6 +47,9 @@
     }
 
     &-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
       margin-top: auto;
       margin-bottom: 5px;
     }
@@ -83,9 +86,16 @@
     background-color: rgba(99, 99, 99, .3);
   }
 
+  &__volume {
+    width: 30px;
+    height: 5px;
+
+  }
+
   &.active {
+    position: relative;
     will-change: transform;
-    background-color: #fff;
+    //background-color: #fff;
     z-index: 10;
 
     .card-video {

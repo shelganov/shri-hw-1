@@ -47,7 +47,12 @@
                                     </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
+                                    <div class="card-video__control">
                                     <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
+                                    </div>
+                                    <div class="card-video__control">
+                                        <canvas class="card-video__volume"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +72,12 @@
                                     </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
-                                    <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
+                                    <div class="card-video__control">
+                                        <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
+                                    </div>
+                                    <div class="card-video__control">
+                                        <canvas class="card-video__volume"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +97,12 @@
                                     </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
-                                    <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
+                                    <div class="card-video__control">
+                                        <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
+                                    </div>
+                                    <div class="card-video__control">
+                                        <canvas class="card-video__volume"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +122,12 @@
                                     </div>
                                 </div>
                                 <div class="card-video__controls-bottom">
-                                    <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
+                                    <div class="card-video__control">
+                                        <a href="#" class="btn btn_size_xs btn_type_transparent card-video__btn">Все камеры</a>
+                                    </div>
+                                    <div class="card-video__control">
+                                        <canvas class="card-video__volume"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +163,6 @@
             </ul>
         </div>
     </div>
-    <!--<script src="dist/main.js"></script>-->
     <script>
 
 //        class Stream {
@@ -180,8 +199,8 @@ function initVideo(video, url) {
 
         hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
             // Ставим начальное качество минимальным
-            hls.autoLevelEnabled = false;
-            hls.loadLevel = 0;
+            // hls.autoLevelEnabled = false;
+            // hls.loadLevel = 0;
             video.play();
             console.log(hls);
         });
@@ -218,65 +237,86 @@ let hlsVideo4 = initVideo(
 );
 
 
-let videos = document.querySelectorAll('.video');
-let videosContainer = document.querySelector('.videotiles');
+function initVideocontrol() {
 
-initVideos(videosContainer, videos);
+    let SELECTED = false;
+    let videoActive = null;
+
+    // Все видео
+    const videos = document.querySelectorAll('.video');
+    // Кнопка "Все камеры"
+    const cardsBtn = document.querySelectorAll('.card-video__btn');
+    // Контейнер плиток
+    // let videosContainer = document.querySelector('.videotiles');
+
+    for (let i = 0; i < videos.length; i++) {
+        videos[i].addEventListener('click', () => {
+            openFullScreen(videos[i]);
+        });
+    }
+
+    for (let i = 0; i < cardsBtn.length; i++) {
+        cardsBtn[i].addEventListener('click', (e) => {
+            closeFullScreen(cardsBtn[i], e);
+        });
+    }
+
+    /**
+     * Открытие фулл скрина
+     **/
+    function openFullScreen(video) {
+        const container = video.parentNode;
+        // const volume = container.querySelector('.card-video__volume').getContext('2d');
+
+        if (container.classList.contains('active'))
+            return;
+
+        // Инф-ия о блоке видео
+        const videoData = video.getBoundingClientRect();
+        const videoWrap = video.parentNode;
+        video.style.width = videoData.width + 'px';
+        video.style.height = videoData.height + 'px';
+        container.classList.add('active');
+        video.muted = false;
+
+        // const source = context.createMediaElementSource(videos[i]);
+        Analyze(video);
+
+        // volume.fillStyle = "red";
+        // volume.fillRect(0, 0, 100, 50);
+
+        // console.log(videosContainer.offsetHeight);
 
 
-function initVideos(videosContainer, videos) {
+        // Позиции центра экрана
+        let positionCenterX = (document.body.clientWidth / 2) - videoData.x - (videoData.width / 2);
+        let positionCenterY = (document.body.clientHeight / 2) - videoData.y - (videoData.height / 2);
+        videoWrap.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0) scale(2)`;
+    // })
 
-    function openFullScreen() {
-        for (let i = 0; i < videos.length; i++) {
-            videos[i].addEventListener('click', function() {
-                let container = this.parentNode;
-
-                if (container.classList.contains('active'))
-                    return;
-
-                let videoData = this.getBoundingClientRect();
-                let videoWrap = this.parentNode;
-                videos[i].style.width = videoData.width + 'px';
-                videos[i].style.height = videoData.height + 'px';
-                this.parentNode.classList.add('active');
-                this.muted = false;
-
-
-                console.log(videosContainer.offsetHeight);
-
-
-
-                // Позиции центра экрана
-                let positionCenterX = (document.body.clientWidth / 2) - videoData.x - (videoData.width / 2);
-                let positionCenterY = (document.body.clientHeight / 2) - videoData.y - (videoData.height / 2);
-                videoWrap.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0) scale(2)`;
-            })
-
-            // hlsVideo1.loadLevel = 2;
-        }
+    // hlsVideo1.loadLevel = 2;
+        // }
     }
 
     /**
      * Закрытие full режима
      * @type {NodeList}
      */
-    function closeFullScreen() {
-        let cardsBtn = document.querySelectorAll('.card-video__btn');
+    function closeFullScreen(button, e) {
+        // console.log(e);
+        e.preventDefault();
+        const parent = button.closest('.card-video');
+        parent.querySelector('video').muted = true;
+        parent.style.transform = null;
 
-        for (let i = 0; i < cardsBtn.length; i++) {
-            cardsBtn[i].addEventListener('click', function (e) {
-                e.preventDefault();
-                let parent = this.closest('.card-video');
-                parent.querySelector('video').muted = true;
-                parent.style.transform = null;
+        setTimeout(() => {
+            parent.classList.remove('active');
+        }, 200);
 
-                setTimeout( () => {
-                    parent.classList.remove('active');
-                },200);
-
-                e.stopPropagation();
-            });
-        }
+        // SELECTED = false;
+        videoActive.disconnect();
+        // videoActive = null;
+        e.stopPropagation();
     }
 
     /**
@@ -303,12 +343,111 @@ function initVideos(videosContainer, videos) {
         });
     }
 
-    openFullScreen();
-    closeFullScreen();
+    /**
+     * Анализатор
+     **/
+    const Analyze = function (video) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        // Аудио-контекст
+        const context = new AudioContext();
+        const node = context.createScriptProcessor(2048, 1, 1);
+        // Анализатор
+        const analyser = context.createAnalyser();
+        analyser.smoothingTimeConstant = 0.3;
+        analyser.fftSize = 512;
+
+        // console.log(context.createMediaElementSource(video));
+        // if (!SELECTED) {
+        // Источник звука
+
+        if (!videoActive) {
+            console.log(`booobi`)
+            videoActive = context.createMediaElementSource(video);
+             // = source;
+
+            // console.log(videoActive);
+            videoActive.connect(analyser);
+            analyser.connect(node);
+        }
+        // SELECTED = true;
+        // }
+
+        //Связываем все с выходом
+        node.connect(context.destination);
+        videoActive.connect(context.destination);
+
+
+        // На вход передаются новые даннные
+        node.onaudioprocess = () => {
+            const volumeArray = new Uint8Array(analyser.frequencyBinCount);
+            // Получаем данные от анализатора
+            analyser.getByteFrequencyData(volumeArray);
+            const volumeAverage = getAverageVolume(volumeArray);
+
+
+            if (!video.paused) {
+                const volume = video.parentNode.querySelector('.card-video__volume').getContext('2d');
+                volume.fillRect(0, 0, volumeAverage, 5);
+                // console.log(volumeAverage)
+                // if (typeof this.update === "function") {
+                //     return this.update(this.volumeArray);
+            } else {
+                return 0;
+            }
+        };
+
+        function getAverageVolume(array) {
+            let length = array.length;
+            let sum = 0;
+
+            for (let i = 0; i < array.length; i++) {
+                sum += array[i];
+            }
+
+            return sum / length;
+        }
+
+        // setInterval(() => {
+        //     console.log(getAverageVolume(this.volumeArray))
+        // },100);
+        //Подписываемся на событие
+        // video.addEventListener("canplay", function () {
+        //     console.log('plaaaay')
+        // });
+    }
+
+    /**
+     * Рисует шкалу звука
+     **/
+    function draw() {
+
+    }
+
+    // initStreams(videosContainer, videos);
 }
 
+// function initAnalyzators() {
+//     const audios = document.querySelectorAll('.card-video__audio');
+//
+//     for (let i = 0; i < audios.length; i++) {
+//         audios[i].getContext('2d');
+//     }
+//
+//     let AudioContext = window.AudioContext || window.webkitAudioContext;
+//     const audioContext = new AudioContext ();
+//
+//     const node = this.context.createScriptProcessor(2048, 1, 1);
+//     const analyser = this.context.createAnalyser();
+//     analyser.smoothingTimeConstant = 0.3;
+//     analyser.fftSize = 512;
+//
+//     const bands = new Uint8Array(this.analyser.frequencyBinCount);
+// }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    initVideocontrol();
+})
 
 
 
