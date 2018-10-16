@@ -165,32 +165,6 @@
     </div>
     <script>
 
-//        class Stream {
-//            constructor(video, url) {
-//                if (Hls.isSupported()) {
-//                    const hls = new Hls();
-//                    hls.loadSource(url);
-//                    hls.attachMedia(video);
-//
-//                    hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
-//                        // Ставим начальное качество минимальным
-//                        console.log(hls);
-//                        hls.autoLevelEnabled = false;
-//                        hls.loadLevel = 0;
-//                        video.play();
-//                    });
-//
-////                    return hls;
-//                }
-//                else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-//                    video.src = url;
-//                    video.addEventListener('loadedmetadata', function () {
-//                        video.play();
-//                    });
-//                }
-//            }
-//        }
-
 function initHls(video, url) {
     if (Hls.isSupported()) {
         const hls = new Hls();
@@ -217,41 +191,7 @@ function initHls(video, url) {
     }
 }
 
-//let hlsVideo1 = initVideo(
-//    document.getElementById('video-1'),
-//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
-//);
-//
-//
-//let hlsVideo2 = initVideo(
-//    document.getElementById('video-2'),
-//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8'
-//);
-//
-//let hlsVideo3 = initVideo(
-//    document.getElementById('video-3'),
-//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8'
-//);
-//
-//let hlsVideo4 = initVideo(
-//    document.getElementById('video-4'),
-//    'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
-//);
-
-
 function initVideocontrol() {
-
-    let activeVideo = {
-        el: null,
-        volume: null
-    };
-
-    // const streams = [
-    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8',
-    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8',
-    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8',
-    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
-    // ];
 
     const streams = [
         "https://ndrfs-lh.akamaihd.net/i/ndrfs_nds@430233/index_3776_av-p.m3u8",
@@ -365,8 +305,6 @@ function initVideocontrol() {
         if (videoWrap.classList.contains('active'))
             return;
 
-//        video.style.width = videoData.width + 'px';
-//        videoWrap.style.height = videoData.height + 'px';
         videoWrap.classList.add('active');
         video.muted = false;
 
@@ -376,7 +314,7 @@ function initVideocontrol() {
         let positionCenterX = (document.body.clientWidth / 2) - videoData.x - (videoData.width / 2);
         let positionCenterY = (document.body.clientHeight / 2) - videoData.y - (videoData.height / 2);
         videoWrap.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0) scale(2)`;
-// alert('open')
+
     // hlsVideo1.loadLevel = 2;
         // }
     }
@@ -424,42 +362,12 @@ function initVideocontrol() {
             this.closest('.card-video').querySelector('.video').style.filter = `contrast(${this.value}%)`;
         });
     }
-
-
-    // function drawSpectrogram(array) {
-    //
-    //     // copy the current canvas onto the temp canvas
-    //     var canvas = document.getElementById("canvas");
-    //
-    //     tempCtx.drawImage(canvas, 0, 0, 800, 512);
-    //
-    //     // iterate over the elements from the array
-    //     for (var i = 0; i < array.length; i++) {
-    //         // draw each pixel with the specific color
-    //         var value = array[i];
-    //         ctx.fillStyle = hot.getColor(value).hex();
-    //
-    //         // draw the line at the right side of the canvas
-    //         ctx.fillRect(800 - 1, 512 - i, 1, 1);
-    //     }
-    //
-    //     // set translate on the canvas
-    //     ctx.translate(-1, 0);
-    //     // draw the copied image
-    //     ctx.drawImage(tempCanvas, 0, 0, 800, 512, 0, 0, 800, 512);
-    //
-    //     // reset the transformation matrix
-    //     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    // }
-
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
     initVideocontrol();
 })
-
-
 
     </script>
 </body>
