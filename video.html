@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="robots" content="noindex">
     <title>SHRI - homework #1</title>
@@ -34,7 +34,7 @@
                 <div class="videotiles">
                     <div class="videotile">
                         <div class="card-video">
-                            <video id="video-1" class="video" muted autoplay></video>
+                            <video id="video-1" class="video" muted autoplay playsinline></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
                                     <div class="card-video__control">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="videotile">
                         <div class="card-video">
-                            <video id="video-2" class="video" muted autoplay></video>
+                            <video id="video-2" class="video" muted autoplay playsinline></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
                                     <div class="card-video__control">
@@ -84,7 +84,7 @@
                     </div>
                     <div class="videotile">
                         <div class="card-video">
-                            <video id="video-3" class="video" muted autoplay></video>
+                            <video id="video-3" class="video" muted autoplay playsinline></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
                                     <div class="card-video__control">
@@ -109,7 +109,7 @@
                     </div>
                     <div class="videotile">
                         <div class="card-video">
-                            <video id="video-4" class="video" muted autoplay></video>
+                            <video id="video-4" class="video" muted autoplay playsinline></video>
                             <div class="card-video__controls">
                                 <div class="card-video__controls-top">
                                     <div class="card-video__control">
@@ -199,8 +199,8 @@ function initHls(video, url) {
 
         hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
             // Ставим начальное качество минимальным
-             hls.autoLevelEnabled = false;
-             hls.loadLevel = 0;
+            //  hls.autoLevelEnabled = false;
+            //  hls.loadLevel = 0;
             video.play();
 //            console.log(hls);
         });
@@ -208,8 +208,10 @@ function initHls(video, url) {
         return hls;
     }
     else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        // alert(url)
         video.src = url;
         video.addEventListener('loadedmetadata', function () {
+        //     alert('loadmetadata');
             video.play();
         });
     }
@@ -244,14 +246,22 @@ function initVideocontrol() {
         volume: null
     };
 
+    // const streams = [
+    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8',
+    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8',
+    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8',
+    //     'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
+    // ];
+
     const streams = [
-        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8',
-        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8',
-        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8',
-        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8'
+        "https://ndrfs-lh.akamaihd.net/i/ndrfs_nds@430233/index_3776_av-p.m3u8",
+        "http://pershij-dlovij-hls3.cosmonova.net.ua/hls/pershij-dlovij_ua_mid/index.m3u8",
+        "https://586c13b083c0d.streamlock.net/tvaktuellr/tvaktuellr.stream_1/chunklist_w551902489.m3u8",
+        "http://hls-edge.cdn.buy-home.tv/bhtvlive/_definst_/live/playlist.m3u8"
     ];
 
     const hlsArray = [];
+    const videosContainer = document.querySelector('.videotiles');
 
     /* Массив источников*/
     let audioSources = {};
@@ -276,7 +286,7 @@ function initVideocontrol() {
      * Подключает определенную камеру
      **/
     function connectAudioSource(video) {
-        let id = video.id;
+        const id = video.id;
 
         if (!audioSources[id]) {
             audioSources[id] = context.createMediaElementSource(video);
@@ -284,7 +294,6 @@ function initVideocontrol() {
 
         audioSources[id].connect(analyser);
         audioSources[id].connect(context.destination);
-
     }
 
     /**
@@ -297,8 +306,7 @@ function initVideocontrol() {
             // Получаем данные от анализатора
             analyser.getByteFrequencyData(volumeArray);
             const volumeAverage = getAverageVolume(volumeArray);
-            console.log(activeVolume.canvas.width);
-
+            // Рисуем уровень громкости
             activeVolume.clearRect(0, 0, activeVolume.canvas.width, activeVolume.canvas.height);
             activeVolume.fillStyle = '#ffdb4d';
             activeVolume.fillRect(0, 0, 2 * volumeAverage, activeVolume.canvas.height);
@@ -320,11 +328,11 @@ function initVideocontrol() {
     }
 
 
-    // Событие - открытие окна
     for (let i = 0; i < videos.length; i++) {
         hlsArray[i] = initHls(videos[i], streams[i]);
-//        console.log(hlsArray[i]);
+       // console.log(hlsArray[i]);
 
+        // Событие - открытие окна
         videos[i].addEventListener('click', () => {
             openFullScreen(videos[i]);
         });
@@ -341,18 +349,25 @@ function initVideocontrol() {
      * Открытие фулл режима
      **/
     function openFullScreen(video) {
-        const container = video.parentNode;
-        activeVolume = container.querySelector('.card-video__volume').getContext("2d");
-
-        if (container.classList.contains('active'))
-            return;
-
+        const videoWrap = video.parentNode;
         // Инф-ия о блоке видео
         const videoData = video.getBoundingClientRect();
-        const videoWrap = video.parentNode;
+        const videoDataWidth = videoData.width;
+        const videoDataHeight = videoData.height;
+        const videoDataSquare = videoDataWidth * videoDataHeight;
+        const documentSquare = videosContainer.offsetWidth * videosContainer.offsetHeight;
+
+
+        console.log(documentSquare / videoDataSquare / 2);
+        // const videoDataWidth = videoData
+        activeVolume = videoWrap.querySelector('.card-video__volume').getContext("2d");
+
+        if (videoWrap.classList.contains('active'))
+            return;
+
 //        video.style.width = videoData.width + 'px';
-//        video.style.height = videoData.height + 'px';
-        container.classList.add('active');
+//        videoWrap.style.height = videoData.height + 'px';
+        videoWrap.classList.add('active');
         video.muted = false;
 
         connectAudioSource(video);
@@ -361,7 +376,7 @@ function initVideocontrol() {
         let positionCenterX = (document.body.clientWidth / 2) - videoData.x - (videoData.width / 2);
         let positionCenterY = (document.body.clientHeight / 2) - videoData.y - (videoData.height / 2);
         videoWrap.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0) scale(2)`;
-
+// alert('open')
     // hlsVideo1.loadLevel = 2;
         // }
     }
@@ -411,32 +426,31 @@ function initVideocontrol() {
     }
 
 
-
-    function drawSpectrogram(array) {
-
-        // copy the current canvas onto the temp canvas
-        var canvas = document.getElementById("canvas");
-
-        tempCtx.drawImage(canvas, 0, 0, 800, 512);
-
-        // iterate over the elements from the array
-        for (var i = 0; i < array.length; i++) {
-            // draw each pixel with the specific color
-            var value = array[i];
-            ctx.fillStyle = hot.getColor(value).hex();
-
-            // draw the line at the right side of the canvas
-            ctx.fillRect(800 - 1, 512 - i, 1, 1);
-        }
-
-        // set translate on the canvas
-        ctx.translate(-1, 0);
-        // draw the copied image
-        ctx.drawImage(tempCanvas, 0, 0, 800, 512, 0, 0, 800, 512);
-
-        // reset the transformation matrix
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-    }
+    // function drawSpectrogram(array) {
+    //
+    //     // copy the current canvas onto the temp canvas
+    //     var canvas = document.getElementById("canvas");
+    //
+    //     tempCtx.drawImage(canvas, 0, 0, 800, 512);
+    //
+    //     // iterate over the elements from the array
+    //     for (var i = 0; i < array.length; i++) {
+    //         // draw each pixel with the specific color
+    //         var value = array[i];
+    //         ctx.fillStyle = hot.getColor(value).hex();
+    //
+    //         // draw the line at the right side of the canvas
+    //         ctx.fillRect(800 - 1, 512 - i, 1, 1);
+    //     }
+    //
+    //     // set translate on the canvas
+    //     ctx.translate(-1, 0);
+    //     // draw the copied image
+    //     ctx.drawImage(tempCanvas, 0, 0, 800, 512, 0, 0, 800, 512);
+    //
+    //     // reset the transformation matrix
+    //     ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // }
 
 }
 
