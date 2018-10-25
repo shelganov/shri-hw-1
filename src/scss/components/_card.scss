@@ -442,31 +442,36 @@
       }
     }
   }
+
+  &_mode_camera {
+    width: 320px;
+    margin: 0 auto;
+
+    .card__img {
+      height: 230px;
+    }
+  }
 }
 
-//.card__img {
-//  height: 230px !important;;
-//}
-//
-//.camera {
-//  width: 9999px;
-//
-//  //transition: .2s all;
-//  //-webkit-backface-visibility: hidden;
-//  -webkit-overflow-scrolling: touch;
-//  //overflow: scroll;
-//  //height: 230px;
-//  //&__img {
-//
-//  //}
-//  &__img {
-//    width: auto;
-//    //height: 100%;
-//    touch-action: none;
-//    user-select: none;
-//    -webkit-user-drag: none;
-//    pointer-events: none;
-//
-//  }
-//
-//}
+.camera {
+  width: 9999px;
+
+  //transition: .2s all;
+  //-webkit-backface-visibility: hidden;
+  -webkit-overflow-scrolling: touch;
+  //overflow: scroll;
+  //height: 230px;
+  //&__img {
+
+  //}
+  &__img {
+    width: auto;
+    //height: 100%;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+
+  }
+
+}

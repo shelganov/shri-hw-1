@@ -719,6 +719,25 @@ h1 {
         @media screen and (max-width: 479px) {
           .card_type_critical .card__content .card__img {
             margin-top: 19px; } }
+  .card_mode_camera {
+    width: 320px;
+    margin: 0 auto; }
+    .card_mode_camera .card__img {
+      height: 230px; }
+
+.camera {
+  width: 9999px;
+  -webkit-overflow-scrolling: touch; }
+  .camera__img {
+    width: auto;
+    -ms-touch-action: none;
+    touch-action: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none; }
 
 .icon {
   display: inline-block;
