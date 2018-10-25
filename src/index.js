@@ -1,6 +1,7 @@
 import './scss/main.scss';
 
 import './img/graph.png';
+import './img/graph@2x.png';
 import './img/hoover.png';
 
 import renderCards from './js/template';

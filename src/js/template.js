@@ -104,6 +104,12 @@ function renderCards(events) {
             imgBlock.classList.add('card__img','image-hoover');
             imgBlock.style.backgroundImage = `url(dist/img/hoover.png)`;
 
+            // imgBlock.classList.add('card__img');
+            // imgBlock.innerHTML = `
+            //     <div class="camera" touch-action="none">
+            //         <img class="camera__img" src="./dist/img/hoover.png" alt="" >
+            //     </div>`;
+
             if (events.events[i].type == 'critical') {
                 card.querySelector('.card__content').appendChild(imgBlock);
             } else
