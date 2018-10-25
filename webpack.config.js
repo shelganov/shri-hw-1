@@ -4,10 +4,13 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
-    entry: `./src/index.js`,
+    entry: {
+        index: './src/index.js',
+        video: './src/video.js',
+    },
     output: {
         path: path.resolve(__dirname, `dist`),
-        filename: 'main.js'
+        filename: '[name].bundle.js'
     },
     optimization: {
         minimizer: [

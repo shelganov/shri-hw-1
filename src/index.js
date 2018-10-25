@@ -1,4 +1,8 @@
 import './scss/main.scss';
+
+import './img/graph.png';
+import './img/hoover.png';
+
 import renderCards from './js/template';
 import iniMenu from './js/menu';
 import ellipsizeText from './js/ellipsizeText';
