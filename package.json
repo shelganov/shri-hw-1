@@ -6,6 +6,7 @@
   "scripts": {
     "prod": "webpack --mode production",
     "dev": "webpack --watch --mode development",
+    "node": "node app/server.js",
     "start": "webpack-dev-server --host localhost --port 3000"
   },
   "repository": {
@@ -38,5 +39,9 @@
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.9"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "http": "0.0.0"
   }
 }
