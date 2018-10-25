@@ -17,4 +17,14 @@
   &_color_brand {
     background-color: #FFD93E;
   }
+
+  &_size_xs {
+    padding: 6px 11px;
+    font-size: 12px;
+  }
+
+  &_type_transparent {
+    background-color: transparent;
+    color: #fff;
+  }
 }
