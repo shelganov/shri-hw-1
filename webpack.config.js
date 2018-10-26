@@ -5,32 +5,46 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
     entry: {
-        index: './src/index.js',
-        touch: './src/touch.js',
-        video: './src/video.js',
+        // index: './src/index.js',
+        // touch: './src/touch.js',
+        // video: './src/video.js',
+        greeter: './src/greeter.ts',
     },
     output: {
         path: path.resolve(__dirname, `dist`),
         filename: '[name].bundle.js'
     },
-    optimization: {
-        minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: false
-            }),
-            new OptimizeCSSAssetsPlugin({})
-        ]
-    },
+    // optimization: {
+    //     minimizer: [
+    //         new UglifyJsPlugin({
+    //             cache: true,
+    //             parallel: true,
+    //             sourceMap: false
+    //         }),
+    //         new OptimizeCSSAssetsPlugin({})
+    //     ]
+    // },
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.ts$/,
                 exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader'
-                }
+                // use: {
+                //     loader: 'awesome-typescript-loader',
+                //     options: {
+                //         'OnlyCompileBundledFiles': true
+                //     }
+                //
+                //
+                // }
+                use: [
+                    {
+                        loader: 'awesome-typescript-loader',
+                        options: {
+                            onlyCompileBundledFiles: true
+                        }
+                    }
+                ],
             },
 
             {
