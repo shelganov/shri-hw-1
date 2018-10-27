@@ -91,10 +91,9 @@
   !*** ./src/greeter.ts ***!
   \************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-eval("\nvar Student = (function () {\n    function Student(firstName, middleInitial, lastName) {\n        this.firstName = firstName;\n        this.middleInitial = middleInitial;\n        this.lastName = lastName;\n        this.fullName = firstName + \" \" + middleInitial + \" \" + lastName;\n    }\n    return Student;\n}());\nfunction greeter(person) {\n    return \"Hello, \" + person.firstName + \" \" + person.lastName;\n}\nvar user = new Student(\"Jane\", \"M.\", \"User\");\ndocument.body.innerHTML = greeter(user);\n\n\n//# sourceURL=webpack:///./src/greeter.ts?");
+eval("throw new Error(\"Module parse failed: The keyword 'interface' is reserved (2:0)\\nYou may need an appropriate loader to handle this file type.\\n| \\n> interface Person {\\n|     firstName: string,\\n|     lastName: string\");\n\n//# sourceURL=webpack:///./src/greeter.ts?");
 
 /***/ })
 

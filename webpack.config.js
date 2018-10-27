@@ -6,9 +6,9 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 module.exports = {
     entry: {
         // index: './src/index.js',
-        // touch: './src/touch.js',
+        touch: './src/touch.js',
         // video: './src/video.js',
-        greeter: './src/greeter.ts',
+        // greeter: './src/greeter.ts',
     },
     output: {
         path: path.resolve(__dirname, `dist`),
@@ -27,25 +27,32 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                // use: {
-                //     loader: 'awesome-typescript-loader',
-                //     options: {
-                //         'OnlyCompileBundledFiles': true
-                //     }
-                //
-                //
-                // }
-                use: [
-                    {
-                        loader: 'awesome-typescript-loader',
-                        options: {
-                            onlyCompileBundledFiles: true
-                        }
-                    }
-                ],
+                use: {
+                    loader: 'babel-loader'
+                }
             },
+            // {
+            //     test: /\.ts$/,
+            //     exclude: /(node_modules|bower_components)/,
+            //     // use: {
+            //     //     loader: 'awesome-typescript-loader',
+            //     //     options: {
+            //     //         'OnlyCompileBundledFiles': true
+            //     //     }
+            //     //
+            //     //
+            //     // }
+            //     use: [
+            //         {
+            //             loader: 'awesome-typescript-loader',
+            //             options: {
+            //                 onlyCompileBundledFiles: true
+            //             }
+            //         }
+            //     ],
+            // },
 
             {
                 // STYLE
