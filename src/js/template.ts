@@ -1,11 +1,43 @@
 
-function renderCards(events) {
-    let templateBase = document.getElementById('tplBase');
-    let templatePlayer = document.getElementById('tplPlayer');
+interface IJson {
+    events: {
+        type: string,
+        size: string,
+        icon?: string,
+        title: string,
+        source: string,
+        time: string,
+        description: string,
+        data?: {
+            temperature?: number,
+            humidity?: number,
+            artist?: string,
+            track?: {
+                name?: string,
+                length?: string
+            },
+            volume?: string,
+            albumcover?: string,
+            buttons?: string[]
+        },
+
+    }[]
+}
+
+/**
+ * Функция вывода шаблона карточки
+ *
+ * @param events - json файл с элементами
+ */
+function renderCards(events: IJson): void {
+    let templateBase: HTMLTemplateElement | null = <HTMLTemplateElement>document.getElementById('tplBase');
+    let templatePlayer: HTMLTemplateElement | null = <HTMLTemplateElement>document.getElementById('tplPlayer');
+    let clone: Node;
+    let card: HTMLDivElement | null;
 
     for (let i = 0; i < events.events.length; i++) {
-        let clone = templateBase.content.cloneNode(true);
-        let card = clone.querySelector('.card');
+        clone = (<Node>templateBase.content).cloneNode(true);
+        card = (<HTMLDivElement>clone).querySelector('.card');
         card.classList.add(`card_type_${events.events[i].type}`);
         card.classList.add(`card_size_${events.events[i].size}`);
         card.querySelector('.icon').classList.add(`icon_thumb_${events.events[i].icon}`);
@@ -61,12 +93,12 @@ function renderCards(events) {
 
         // Блок с плеером
         if (events.events[i].icon == 'music') {
-            let clonePlayer = templatePlayer.content.cloneNode(true);
+            let clonePlayer = <HTMLElement>templatePlayer.content.cloneNode(true);
             clonePlayer.querySelector('.player__track-artist').innerHTML = events.events[i].data.artist;
             clonePlayer.querySelector('.player__track-name').innerHTML = events.events[i].data.track.name;
             clonePlayer.querySelector('.player__track-length').innerHTML = events.events[i].data.track.length;
             clonePlayer.querySelector('.vol-slider-val__length').innerHTML = events.events[i].data.volume;
-            clonePlayer.querySelector('.player__cover').style.backgroundImage = `url(${events.events[i].data.albumcover})`;
+            (<HTMLElement>clonePlayer.querySelector('.player__cover')).style.backgroundImage = `url(${events.events[i].data.albumcover})`;
 
             card.appendChild(clonePlayer);
         }
@@ -103,12 +135,6 @@ function renderCards(events) {
             let imgBlock = document.createElement('div');
             imgBlock.classList.add('card__img','image-hoover');
             imgBlock.style.backgroundImage = `url(dist/img/hoover.png)`;
-
-            // imgBlock.classList.add('card__img');
-            // imgBlock.innerHTML = `
-            //     <div class="camera" touch-action="none">
-            //         <img class="camera__img" src="./dist/img/hoover.png" alt="" >
-            //     </div>`;
 
             if (events.events[i].type == 'critical') {
                 card.querySelector('.card__content').appendChild(imgBlock);

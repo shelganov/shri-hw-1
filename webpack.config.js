@@ -5,10 +5,9 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
     entry: {
-        // index: './src/index.js',
-        touch: './src/touch.ts',
+        index: './src/index.ts',
+        // touch: './src/touch.ts',
         // video: './src/video.js',
-        // greeter: './src/greeter.ts',
     },
     output: {
         path: path.resolve(__dirname, `dist`),
@@ -31,7 +30,7 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader',
+                        loader: 'ts-loader',
                         options: {
                             onlyCompileBundledFiles: true
                         }
@@ -114,6 +113,9 @@ module.exports = {
                 ],
             }
         ]
+    },
+    resolve: {
+        extensions: [ '.ts', '.tsx', '.js' ]
     },
     plugins: [
         new MiniCssExtractPlugin({
