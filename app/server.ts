@@ -1,8 +1,9 @@
-// import { Application, Request, Response, NextFunction } from "express";
+import { Application, Request, Response, NextFunction } from "express";
 
-const path = require('path');
-const fs = require('fs');
-const express = require('express');
+// const path = require('path');
+import * as path from 'path';
+import * as fs from "fs";
+import * as express from "express";
 const app = express();
 const port = 8000;
 
@@ -14,7 +15,7 @@ const OPTIONS = {
 };
 
 // const statusHandler = require('./status');
-const JSON_MAIN = JSON.parse(fs.readFileSync(path.join(__dirname, '/events.json')));
+const JSON_MAIN = JSON.parse((fs.readFileSync(path.join(__dirname, '/events.json'))).toString());
 const JSON_EVENTS = JSON_MAIN.events;
 // Метод добавления нулей в числа
 import numTo2Digit from './utility';
@@ -24,7 +25,7 @@ import numTo2Digit from './utility';
  * Маршрут - страница status
  * Показывает время, прошедшее с запуска сервера
  */
-app.get('/status', (req, res) => {
+app.get('/status', (req: Request, res) => {
     const serverStartTime = app.get('serverStartTime'),
           serverCurrentTime = new Date();
 

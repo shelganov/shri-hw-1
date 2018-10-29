@@ -5,8 +5,8 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
     entry: {
-        // index: './src/index.ts',
-        // touch: './src/touch.ts',
+        index: './src/index.ts',
+        touch: './src/touch.ts',
         video: './src/video.ts',
     },
     output: {

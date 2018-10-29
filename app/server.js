@@ -1,9 +1,9 @@
 "use strict";
-// import { Application, Request, Response, NextFunction } from "express";
 exports.__esModule = true;
-var path = require('path');
-var fs = require('fs');
-var express = require('express');
+// const path = require('path');
+var path = require("path");
+var fs = require("fs");
+var express = require("express");
 var app = express();
 var port = 8000;
 var OPTIONS = {
@@ -13,7 +13,7 @@ var OPTIONS = {
     }
 };
 // const statusHandler = require('./status');
-var JSON_MAIN = JSON.parse(fs.readFileSync(path.join(__dirname, '/events.json')));
+var JSON_MAIN = JSON.parse((fs.readFileSync(path.join(__dirname, '/events.json'))).toString());
 var JSON_EVENTS = JSON_MAIN.events;
 // Метод добавления нулей в числа
 var utility_1 = require("./utility");
