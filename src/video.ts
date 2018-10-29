@@ -49,7 +49,9 @@ function initVideocontrol() {
     const videosContainer = document.querySelector('.videotiles');
 
     /* Массив источников*/
-    let audioSources = {};
+    let audioSources: {
+        [id: string]: {}
+    } = {};
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     // Аудио-контекст
     const context = new AudioContext();
@@ -73,12 +75,13 @@ function initVideocontrol() {
     function connectAudioSource(video: HTMLVideoElement) {
         const id = video.id;
 
+        console.log(audioSources)
         if (!audioSources[id]) {
             audioSources[id] = context.createMediaElementSource(video);
         }
 
-        audioSources[id].connect(analyser);
-        audioSources[id].connect(context.destination);
+        (<AnalyserNode>audioSources[id]).connect(analyser);
+        (<AnalyserNode>audioSources[id]).connect(context.destination);
     }
 
     /**
@@ -101,7 +104,7 @@ function initVideocontrol() {
     /**
      * Считает среднее массива частот с источника
      **/
-    function getAverageVolume(array) {
+    function getAverageVolume(array: Uint8Array) {
         let length = array.length;
         let sum = 0;
 
@@ -126,7 +129,7 @@ function initVideocontrol() {
     // Событие - закрытие окна
     for (let i = 0; i < cardsBtn.length; i++) {
         cardsBtn[i].addEventListener('click', (e) => {
-            closeFullScreen(cardsBtn[i], e);
+            closeFullScreen(<HTMLElement>cardsBtn[i], e);
         });
     }
 
@@ -143,12 +146,20 @@ function initVideocontrol() {
         const documentSquare = (<HTMLElement>videosContainer).offsetWidth * (<HTMLElement>videosContainer).offsetHeight;
 
 
-        if (videoWrap == null)
+        if (videoWrap === null)
             return;
 
-        console.log(documentSquare / videoDataSquare / 2);
-        // const videoDataWidth = videoData
-        activeVolume = (<HTMLCanvasElement>videoWrap.querySelector('.card-video__volume')).getContext("2d");
+        const videoVolume = videoWrap.querySelector('.card-video__volume');
+
+        if (videoVolume === null)
+            return;
+
+        const videoVolumeContext = (<HTMLCanvasElement>videoVolume).getContext("2d");
+
+        if (videoVolumeContext === null)
+            return;
+
+        activeVolume = videoVolumeContext;
 
         if (videoWrap.classList.contains('active'))
             return;
@@ -171,13 +182,21 @@ function initVideocontrol() {
      * Закрытие full режима
      * @type {NodeList}
      */
-    function closeFullScreen(button, e) {
+    function closeFullScreen(button: HTMLElement, e: Event) {
         e.preventDefault();
         const parent = button.closest('.card-video');
+
+        if (parent === null)
+            return;
+
         const video = parent.querySelector('video');
-        parent.style.transform = null;
+
+        if (video === null)
+            return;
+
+        (<HTMLElement>parent).style.transform = null;
         video.muted = true;
-        audioSources[video.id].disconnect();
+        (<AnalyserNode>audioSources[video.id]).disconnect();
 //        video.disconnect();
 
         setTimeout(() => {
