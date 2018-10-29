@@ -23,6 +23,15 @@ interface IJson {
 
     }[]
 }
+//
+interface ITrackCard extends IJson {
+    data: {
+        track: {
+            name: string,
+            length: string
+        }
+    }
+}
 
 /**
  * Функция вывода шаблона карточки
@@ -34,16 +43,50 @@ function renderCards(events: IJson): void {
     let templatePlayer: HTMLTemplateElement | null = <HTMLTemplateElement>document.getElementById('tplPlayer');
     let clone: Node;
     let card: HTMLDivElement | null;
+    let cardIcon: HTMLDivElement | null;
+    let cardTitle: HTMLDivElement | null;
+    let cardSource: HTMLDivElement | null;
+    let cardTime: HTMLDivElement | null;
+    let cardContent: HTMLDivElement | null;
 
     for (let i = 0; i < events.events.length; i++) {
         clone = (<Node>templateBase.content).cloneNode(true);
         card = (<HTMLDivElement>clone).querySelector('.card');
+
+        if (card === null)
+            return;
+
+        cardIcon = card.querySelector('.icon');
+
+        if (cardIcon === null)
+            return;
+
+        cardTitle = card.querySelector('.card__title');
+
+        if (cardTitle === null)
+            return;
+
+        cardSource = card.querySelector('.card__source');
+
+        if (cardSource === null)
+            return;
+
+        cardTime = card.querySelector('.card__time');
+
+        if (cardTime === null)
+            return;
+
+        cardContent = card.querySelector('.card__content');
+
+        if (cardContent === null)
+            return;
+
         card.classList.add(`card_type_${events.events[i].type}`);
         card.classList.add(`card_size_${events.events[i].size}`);
-        card.querySelector('.icon').classList.add(`icon_thumb_${events.events[i].icon}`);
-        card.querySelector('.card__title').innerHTML = events.events[i].title;
-        card.querySelector('.card__source').innerHTML = events.events[i].source;
-        card.querySelector('.card__time').innerHTML = events.events[i].time;
+        cardIcon.classList.add(`icon_thumb_${events.events[i].icon}`);
+        cardTitle.innerHTML = events.events[i].title;
+        cardSource.innerHTML = events.events[i].source;
+        cardTime.innerHTML = events.events[i].time;
         let cardTopContent = document.createElement('div');
         cardTopContent.classList.add('card__wrap');
         let cardCross = document.createElement('div');
@@ -63,7 +106,7 @@ function renderCards(events: IJson): void {
             cloneText.innerHTML = events.events[i].description;
 
             if (events.events[i].type == 'critical') {
-                card.querySelector('.card__content').appendChild(cloneText);
+                cardContent.appendChild(cloneText);
             } else
                 card.appendChild(cloneText);
         }
@@ -76,6 +119,12 @@ function renderCards(events: IJson): void {
             let cloneWet = document.createElement('div');
             cloneTemp.classList.add('card__temperature');
             cloneWet.classList.add('card__wet');
+
+            // if (!events.events[i].data.temperature || (events.events[i].data.temperature && events.events[i].data.temperature == undefined))
+            //     return;
+            // if (events.events[i].data!.temperature === undefined || events.events[i].data!.humidity === undefined) {
+            //     return;
+            // }
             cloneTemp.innerHTML = `
                 Температура: 
                 <span class="text-bold card__temperature-val">${events.events[i].data.temperature}</span>
@@ -94,8 +143,13 @@ function renderCards(events: IJson): void {
         // Блок с плеером
         if (events.events[i].icon == 'music') {
             let clonePlayer = <HTMLElement>templatePlayer.content.cloneNode(true);
+
+            if (!events.events[i].data || !events.events[i].data.artist) {
+                return;
+            }
+
             clonePlayer.querySelector('.player__track-artist').innerHTML = events.events[i].data.artist;
-            clonePlayer.querySelector('.player__track-name').innerHTML = events.events[i].data.track.name;
+            clonePlayer.querySelector('.player__track-name').innerHTML = events.events[i].data!.track.name;
             clonePlayer.querySelector('.player__track-length').innerHTML = events.events[i].data.track.length;
             clonePlayer.querySelector('.vol-slider-val__length').innerHTML = events.events[i].data.volume;
             (<HTMLElement>clonePlayer.querySelector('.player__cover')).style.backgroundImage = `url(${events.events[i].data.albumcover})`;

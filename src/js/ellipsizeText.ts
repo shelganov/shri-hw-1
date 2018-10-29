@@ -2,7 +2,12 @@
  * Обрезает заголовок по высоте и добавляет `...` если больше 2 строк
  * @param el
  */
-function ellipsizeText(el) {
+
+interface ITitle {
+    length: number
+}
+
+function ellipsizeText<T extends ITitle>(el: T): void {
     for (let i = 0; i < el.length; i++) {
         let wordArray = el[i].innerHTML.split(' ');
 
