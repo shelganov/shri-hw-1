@@ -1,8 +1,7 @@
 import './scss/main.scss';
 import initMenu from './js/menu';
 
-// import Hls from 'hls.js'
-import Hls from 'hls.js';
+import Hls from "hls.js";
 
 interface IWindow {
     AudioContext: typeof AudioContext;
@@ -11,14 +10,13 @@ interface IWindow {
 }
 declare const window: IWindow;
 
-
-function initHls(video, url) {
+function initHls(video: HTMLVideoElement, url: string): void {
     if (Hls.isSupported()) {
-        const hls = new Hls();
+        const hls: Hls = new Hls();
         hls.loadSource(url);
         hls.attachMedia(video);
 
-        hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
             // Ставим начальное качество минимальным
             //  hls.autoLevelEnabled = false;
             //  hls.loadLevel = 0;
@@ -62,7 +60,7 @@ function initVideocontrol() {
     analyser.smoothingTimeConstant = 0.3;
     analyser.fftSize = 512;
     analyser.connect(node);
-    let activeVolume = null;
+    let activeVolume: CanvasRenderingContext2D;
 
     // Все видео
     const videos = document.querySelectorAll('.video');
@@ -72,7 +70,7 @@ function initVideocontrol() {
     /**
      * Подключает определенную камеру
      **/
-    function connectAudioSource(video) {
+    function connectAudioSource(video: HTMLVideoElement) {
         const id = video.id;
 
         if (!audioSources[id]) {
@@ -116,12 +114,12 @@ function initVideocontrol() {
 
 
     for (let i = 0; i < videos.length; i++) {
-        hlsArray[i] = initHls(videos[i], streams[i]);
+        hlsArray[i] = initHls(<HTMLVideoElement>videos[i], streams[i]);
         // console.log(hlsArray[i]);
 
         // Событие - открытие окна
         videos[i].addEventListener('click', () => {
-            openFullScreen(videos[i]);
+            openFullScreen(<HTMLVideoElement>videos[i]);
         });
     }
 
@@ -135,8 +133,8 @@ function initVideocontrol() {
     /**
      * Открытие фулл режима
      **/
-    function openFullScreen(video) {
-        const videoWrap = video.parentNode;
+    function openFullScreen(video: HTMLVideoElement) {
+        const videoWrap: HTMLElement = <HTMLElement>video.parentNode;
         // Инф-ия о блоке видео
         const videoData = video.getBoundingClientRect();
         const videoDataWidth = videoData.width;
@@ -145,9 +143,12 @@ function initVideocontrol() {
         const documentSquare = (<HTMLElement>videosContainer).offsetWidth * (<HTMLElement>videosContainer).offsetHeight;
 
 
+        if (videoWrap == null)
+            return;
+
         console.log(documentSquare / videoDataSquare / 2);
         // const videoDataWidth = videoData
-        activeVolume = videoWrap.querySelector('.card-video__volume').getContext("2d");
+        activeVolume = (<HTMLCanvasElement>videoWrap.querySelector('.card-video__volume')).getContext("2d");
 
         if (videoWrap.classList.contains('active'))
             return;
@@ -158,8 +159,8 @@ function initVideocontrol() {
         connectAudioSource(video);
 
         // Позиции центра экрана
-        let positionCenterX = (document.body.clientWidth / 2) - videoData.x - (videoData.width / 2);
-        let positionCenterY = (document.body.clientHeight / 2) - videoData.y - (videoData.height / 2);
+        let positionCenterX = (document.body.clientWidth / 2) - (videoData).left - (videoData.width / 2);
+        let positionCenterY = (document.body.clientHeight / 2) - videoData.top - (videoData.height / 2);
         videoWrap.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0) scale(2)`;
 
         // hlsVideo1.loadLevel = 2;
@@ -214,5 +215,5 @@ function initVideocontrol() {
 
 document.addEventListener('DOMContentLoaded', () => {
     initMenu();
-    // initVideocontrol();
+    initVideocontrol();
 })

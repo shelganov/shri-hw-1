@@ -7,7 +7,7 @@ module.exports = {
     entry: {
         index: './src/index.ts',
         touch: './src/touch.ts',
-        // video: './src/video.ts',
+        video: './src/video.ts',
     },
     output: {
         path: path.resolve(__dirname, `dist`),
