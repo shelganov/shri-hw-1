@@ -18,19 +18,10 @@ interface IJson {
             },
             volume?: string,
             albumcover?: string,
-            buttons?: string[]
+            buttons?: [string, string]
         },
 
     }[]
-}
-//
-interface ITrackCard extends IJson {
-    data: {
-        track: {
-            name: string,
-            length: string
-        }
-    }
 }
 
 /**
@@ -48,6 +39,9 @@ function renderCards(events: IJson): void {
     let cardSource: HTMLDivElement | null;
     let cardTime: HTMLDivElement | null;
     let cardContent: HTMLDivElement | null;
+
+    if (templateBase === null)
+        return;
 
     for (let i = 0; i < events.events.length; i++) {
         clone = (<Node>templateBase.content).cloneNode(true);
@@ -76,10 +70,11 @@ function renderCards(events: IJson): void {
         if (cardTime === null)
             return;
 
-        cardContent = card.querySelector('.card__content');
+        // cardContent = card.querySelector('.card__content');
+        // console.log(141414)
 
-        if (cardContent === null)
-            return;
+        // if (cardContent === null)
+        //     return;
 
         card.classList.add(`card_type_${events.events[i].type}`);
         card.classList.add(`card_size_${events.events[i].size}`);
@@ -106,7 +101,13 @@ function renderCards(events: IJson): void {
             cloneText.innerHTML = events.events[i].description;
 
             if (events.events[i].type == 'critical') {
+                cardContent = card.querySelector('.card__content');
+
+                if (cardContent === null)
+                    return;
+
                 cardContent.appendChild(cloneText);
+                // cardContent.appendChild(cloneText);
             } else
                 card.appendChild(cloneText);
         }
@@ -120,20 +121,15 @@ function renderCards(events: IJson): void {
             cloneTemp.classList.add('card__temperature');
             cloneWet.classList.add('card__wet');
 
-            // if (!events.events[i].data.temperature || (events.events[i].data.temperature && events.events[i].data.temperature == undefined))
-            //     return;
-            // if (events.events[i].data!.temperature === undefined || events.events[i].data!.humidity === undefined) {
-            //     return;
-            // }
             cloneTemp.innerHTML = `
-                Температура: 
-                <span class="text-bold card__temperature-val">${events.events[i].data.temperature}</span>
-                <span class="text-bold"> C</span>`;
+            Температура: 
+            <span class="text-bold card__temperature-val">${events.events[i].data!.temperature}</span>
+            <span class="text-bold"> C</span>`;
 
             cloneWet.innerHTML = `
-                Влажность:
-                <span class="text-bold card__wet-val">${events.events[i].data.humidity}</span>
-                <span class="text-bold"> %</span>`;
+            Влажность:
+            <span class="text-bold card__wet-val">${events.events[i].data!.humidity}</span>
+            <span class="text-bold"> %</span>`;
 
             cloneSpecial.appendChild(cloneTemp);
             cloneSpecial.appendChild(cloneWet);
@@ -144,15 +140,30 @@ function renderCards(events: IJson): void {
         if (events.events[i].icon == 'music') {
             let clonePlayer = <HTMLElement>templatePlayer.content.cloneNode(true);
 
-            if (!events.events[i].data || !events.events[i].data.artist) {
+            if (!events.events[i].data || !events.events[i].data!.artist) {
                 return;
             }
 
-            clonePlayer.querySelector('.player__track-artist').innerHTML = events.events[i].data.artist;
-            clonePlayer.querySelector('.player__track-name').innerHTML = events.events[i].data!.track.name;
-            clonePlayer.querySelector('.player__track-length').innerHTML = events.events[i].data.track.length;
-            clonePlayer.querySelector('.vol-slider-val__length').innerHTML = events.events[i].data.volume;
-            (<HTMLElement>clonePlayer.querySelector('.player__cover')).style.backgroundImage = `url(${events.events[i].data.albumcover})`;
+            const artist = clonePlayer.querySelector('.player__track-artist'),
+                  trackName = clonePlayer.querySelector('.player__track-name'),
+                  trackLength = clonePlayer.querySelector('.player__track-length'),
+                  sliderValLength = clonePlayer.querySelector('.vol-slider-val__length'),
+                  playerCover = clonePlayer.querySelector('.player__cover');
+
+
+            if (artist == null ||
+                trackName == null ||
+                trackLength == null ||
+                sliderValLength == null ||
+                playerCover == null) {
+                return;
+            }
+
+            artist.innerHTML = <string>events.events[i].data!.artist;
+            trackName.innerHTML = <string>events.events[i].data!.track!.name;
+            trackLength.innerHTML = <string>events.events[i].data!.track!.length;
+            sliderValLength.innerHTML = <string>events.events[i].data!.volume;
+            (<HTMLElement>playerCover).style.backgroundImage = `url(${events.events[i].data!.albumcover})`;
 
             card.appendChild(clonePlayer);
         }
@@ -162,8 +173,8 @@ function renderCards(events: IJson): void {
             let btnBlock = document.createElement('div');
             btnBlock.classList.add('card__buttons');
             btnBlock.innerHTML = `
-                <button class="btn btn_color_brand">${events.events[i].data.buttons[0]}</button>
-                <button class="btn">${events.events[i].data.buttons[1]}</button>
+                <button class="btn btn_color_brand">${events.events[i].data!.buttons![0]}</button>
+                <button class="btn">${events.events[i].data!.buttons![1]}</button>
             `;
 
             card.appendChild(btnBlock);
@@ -179,7 +190,7 @@ function renderCards(events: IJson): void {
                                                dist/img/graph@3x.png 3x" alt="">`;
 
             if (events.events[i].type == 'critical') {
-                card.querySelector('.card__content').appendChild(imgBlock);
+                (<Node>card.querySelector('.card__content')).appendChild(imgBlock);
             } else
                 card.appendChild(imgBlock);
         }
@@ -191,7 +202,7 @@ function renderCards(events: IJson): void {
             imgBlock.style.backgroundImage = `url(dist/img/hoover.png)`;
 
             if (events.events[i].type == 'critical') {
-                card.querySelector('.card__content').appendChild(imgBlock);
+                (<Node>card.querySelector('.card__content')).appendChild(imgBlock);
             } else
                 card.appendChild(imgBlock);
         }
@@ -206,7 +217,7 @@ function renderCards(events: IJson): void {
         card.insertBefore(cardCross,card.firstChild);
         card.insertBefore(cardNext,card.firstChild);
         card.insertBefore(cardTopContent, card.firstChild);
-        templateBase.parentNode.appendChild(clone);
+        (<Node>templateBase.parentNode).appendChild(clone);
     }
 }
 

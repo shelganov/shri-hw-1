@@ -10,12 +10,11 @@ import ellipsizeText from './js/ellipsizeText';
 
 import dataEvents from './events.json';
 
-
 document.addEventListener('DOMContentLoaded', function () {
     initMenu();
 
     renderCards(dataEvents);
 
-    let cardTitles = document.querySelectorAll('.card__title');
+    let cardTitles: NodeListOf<HTMLElement> = document.querySelectorAll('.card__title');
     ellipsizeText(cardTitles);
 });
