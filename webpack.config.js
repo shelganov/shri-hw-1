@@ -8,6 +8,7 @@ module.exports = {
         index: './src/index.ts',
         touch: './src/touch.ts',
         video: './src/video.ts',
+        // node: './app/server.ts',
     },
     output: {
         path: path.resolve(__dirname, `dist`),
