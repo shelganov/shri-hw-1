@@ -10,7 +10,7 @@ interface IWindow {
 }
 declare const window: IWindow;
 
-function initHls(video: HTMLVideoElement, url: string): void {
+function initHls(video: HTMLVideoElement, url: string) {
     if (Hls.isSupported()) {
         const hls: Hls = new Hls();
         hls.loadSource(url);
@@ -213,8 +213,23 @@ function initVideocontrol() {
     let cardsInputBrightness = document.querySelectorAll('.card-video__input-brightness');
 
     for (let i = 0; i < cardsInputBrightness.length; i++) {
-        cardsInputBrightness[i].addEventListener('input', function (e) {
-            this.closest('.card-video').querySelector('.video').style.filter = `brightness(${this.value}%)`;
+
+        cardsInputBrightness[i].addEventListener('input', () => {
+
+            if (cardsInputBrightness[i] == null)
+                return;
+
+            let parent = cardsInputBrightness[i].closest('.card-video');
+
+            if (parent === null)
+                return;
+
+            let parentVideo = parent.querySelector('.video');
+
+            if (parentVideo === null)
+                return;
+
+            (<HTMLElement>parentVideo).style.filter = `brightness(${(<HTMLInputElement>cardsInputBrightness[i]).value}%)`;
         });
     }
 
@@ -225,8 +240,23 @@ function initVideocontrol() {
     let cardsInputContrast = document.querySelectorAll('.card-video__input-contrast');
 
     for (let i = 0; i < cardsInputContrast.length; i++) {
-        cardsInputContrast[i].addEventListener('input', function (e) {
-            this.closest('.card-video').querySelector('.video').style.filter = `contrast(${this.value}%)`;
+        cardsInputContrast[i].addEventListener('input', (e) => {
+
+            if (cardsInputContrast[i] == null)
+                return;
+
+            let parent = cardsInputContrast[i].closest('.card-video')
+
+            if (parent === null)
+                return;
+
+            let parentVideo = parent.querySelector('.video');
+
+            if (parentVideo === null)
+                return;
+
+
+            (<HTMLElement>parentVideo).style.filter = `contrast(${(<HTMLInputElement>cardsInputContrast[i]).value}%)`;
         });
     }
 }
