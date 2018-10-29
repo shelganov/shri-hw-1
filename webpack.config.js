@@ -8,30 +8,26 @@ module.exports = {
         index: './src/index.ts',
         touch: './src/touch.ts',
         video: './src/video.ts',
-        // node: './app/server.ts',
     },
     output: {
         path: path.resolve(__dirname, `dist`),
         filename: '[name].bundle.js'
     },
-    // optimization: {
-    //     minimizer: [
-    //         new UglifyJsPlugin({
-    //             cache: true,
-    //             parallel: true,
-    //             sourceMap: false
-    //         }),
-    //         new OptimizeCSSAssetsPlugin({})
-    //     ]
-    // },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: false
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ]
+    },
     module: {
         rules: [
             {
                 test: /\.ts$/,
                 exclude: /(node_modules|bower_components)/,
-                // include: [
-                //     path.resolve(__dirname, `src/hls`)
-                // ],
                 use: [
                     {
                         loader: 'ts-loader',
