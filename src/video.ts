@@ -1,5 +1,15 @@
 import './scss/main.scss';
-import iniMenu from './js/menu';
+import initMenu from './js/menu';
+
+// import Hls from 'hls.js'
+import Hls from 'hls.js';
+
+interface IWindow {
+    AudioContext: typeof AudioContext;
+    webkitAudioContext: typeof AudioContext;
+    mozAudioContext: typeof AudioContext;
+}
+declare const window: IWindow;
 
 
 function initHls(video, url) {
@@ -132,7 +142,7 @@ function initVideocontrol() {
         const videoDataWidth = videoData.width;
         const videoDataHeight = videoData.height;
         const videoDataSquare = videoDataWidth * videoDataHeight;
-        const documentSquare = videosContainer.offsetWidth * videosContainer.offsetHeight;
+        const documentSquare = (<HTMLElement>videosContainer).offsetWidth * (<HTMLElement>videosContainer).offsetHeight;
 
 
         console.log(documentSquare / videoDataSquare / 2);
@@ -203,6 +213,6 @@ function initVideocontrol() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    iniMenu();
-    initVideocontrol();
+    initMenu();
+    // initVideocontrol();
 })

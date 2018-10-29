@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/shelganov/shri-hw-1#readme",
   "devDependencies": {
+    "@types/hls.js": "^0.10.2",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
