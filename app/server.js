@@ -1,10 +1,9 @@
 "use strict";
 exports.__esModule = true;
-// const path = require('path');
+var express_1 = require("express");
+var app = express_1["default"]();
 var path = require("path");
 var fs = require("fs");
-var express = require("express");
-var app = express();
 var port = 8000;
 var OPTIONS = {
     type: {
@@ -34,16 +33,13 @@ app.get('/api/events', function (req, res) {
     var params = req.query;
     /* Типы в request */
     var types = params.type || null;
-    var typesArray = null;
+    var typesArray;
     // Если нет параметров
     if (Object.keys(params).length == 0) {
         return res.status(200).json(JSON_EVENTS);
     }
-    // console.log(params);
     // Если параметр не существует
     for (var key in params) {
-        // key = type, ..
-        // params[key] = critical, info..
         if (params.hasOwnProperty(key)) {
             if (!OPTIONS[key]) {
                 return res.status(400).send('incorrect parameters');
@@ -59,7 +55,7 @@ app.get('/api/events', function (req, res) {
             }
         });
         var jsonSorted = JSON_EVENTS.filter(function (event) {
-            return typesArray.includes(event.type);
+            return typesArray.includes(event["type"]);
         });
         return res.status(200).json(jsonSorted);
     }

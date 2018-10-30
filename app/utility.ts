@@ -4,7 +4,7 @@
  * @param num
  * @returns {string}
  */
-function numTo2Digit(num) {
+function numTo2Digit(num: Number) {
     return num < 10 ? '0' + num :  num;
 }
 

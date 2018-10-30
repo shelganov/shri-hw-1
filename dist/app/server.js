@@ -1,62 +1,53 @@
-import {Request, Response, NextFunction } from "express";
-import {Application} from "express-serve-static-core";
-import express from "express";
-
-const app: Application = express();
-import path from 'path';
-import fs from "fs";
-const port: number = 8000;
-
-const OPTIONS: {
-    [type: string]: {
-        [prop: string]: boolean,
-    }
-} = {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const app = express_1.default();
+const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
+const port = 8000;
+const OPTIONS = {
     type: {
         "info": true,
         "critical": true
     }
 };
-
 // const statusHandler = require('./status');
 const JSON_MAIN = JSON.parse((fs.readFileSync(path.join(__dirname, '/events.json'))).toString());
 const JSON_EVENTS = JSON_MAIN.events;
 // Метод добавления нулей в числа
-import numTo2Digit from './utility';
-
-
+const utility_1 = __importDefault(require("./utility"));
 /**
  * Маршрут - страница status
  * Показывает время, прошедшее с запуска сервера
  */
-app.get('/status', (req: Request, res: Response) => {
-    const serverStartTime = app.get('serverStartTime'),
-          serverCurrentTime = new Date();
-
+app.get('/status', (req, res) => {
+    const serverStartTime = app.get('serverStartTime'), serverCurrentTime = new Date();
     // Разница времени
-    let serverWorkingTime = Number(serverCurrentTime) - Number(serverStartTime),
-        serverTimeH = Math.floor(serverWorkingTime / (1000 * 3600)) % 60,
-        serverTimeM = Math.floor(serverWorkingTime / (1000 * 60)) % 60,
-        serverTimeS = Math.floor(serverWorkingTime / 1000) % 60;
-
-    res.send(`${numTo2Digit(serverTimeH)}:${numTo2Digit(serverTimeM)}:${numTo2Digit(serverTimeS)}`);
+    let serverWorkingTime = Number(serverCurrentTime) - Number(serverStartTime), serverTimeH = Math.floor(serverWorkingTime / (1000 * 3600)) % 60, serverTimeM = Math.floor(serverWorkingTime / (1000 * 60)) % 60, serverTimeS = Math.floor(serverWorkingTime / 1000) % 60;
+    res.send(`${utility_1.default(serverTimeH)}:${utility_1.default(serverTimeM)}:${utility_1.default(serverTimeS)}`);
 });
-
-
 /**
  * API
  */
-app.get('/api/events', (req: Request, res: Response) => {
+app.get('/api/events', (req, res) => {
     let params = req.query;
     /* Типы в request */
     let types = params.type || null;
-    let typesArray: string[];
-
+    let typesArray;
     // Если нет параметров
     if (Object.keys(params).length == 0) {
         return res.status(200).json(JSON_EVENTS);
     }
-
     // Если параметр не существует
     for (let key in params) {
         if (params.hasOwnProperty(key)) {
@@ -65,7 +56,6 @@ app.get('/api/events', (req: Request, res: Response) => {
             }
         }
     }
-
     if (types) {
         typesArray = types.split(':');
         // Если параметр type неверный
@@ -74,38 +64,32 @@ app.get('/api/events', (req: Request, res: Response) => {
                 return res.status(400).send('incorrect type');
             }
         });
-
-        let jsonSorted = JSON_EVENTS.filter(function (event: {type: string}) {
-
+        let jsonSorted = JSON_EVENTS.filter(function (event) {
             return typesArray.includes(event["type"]);
         });
         return res.status(200).json(jsonSorted);
-    } else {
+    }
+    else {
         return res.status(400).send('incorrect type');
     }
-
-
-
 });
-
 /**
  * 404 ошибка
  */
-app.use(function(req: Request, res: Response, next: NextFunction) {
+app.use(function (req, res, next) {
     res.status(404).send('<h1>Page not found</h1>');
 });
-
-app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
+app.use(function (err, req, res, next) {
     res.status(500).end('Server error');
 });
-
 /**
  * Запуск сервера
  */
-app.listen(port, (error: Error) => {
+app.listen(port, (error) => {
     if (error) {
         return console.log(`error ${error}`);
     }
     app.set('serverStartTime', new Date());
     console.log(`Example app listening on port ${port}!`);
 });
+//# sourceMappingURL=server.js.map
