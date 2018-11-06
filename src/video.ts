@@ -1,14 +1,22 @@
 import './scss/main.scss';
-import iniMenu from './js/menu';
+import initMenu from './js/menu';
 
+import Hls from "hls.js";
 
-function initHls(video, url) {
+interface IWindow {
+    AudioContext: typeof AudioContext;
+    webkitAudioContext: typeof AudioContext;
+    mozAudioContext: typeof AudioContext;
+}
+declare const window: IWindow;
+
+function initHls(video: HTMLVideoElement, url: string) {
     if (Hls.isSupported()) {
-        const hls = new Hls();
+        const hls: Hls = new Hls();
         hls.loadSource(url);
         hls.attachMedia(video);
 
-        hls.on(Hls.Events.MANIFEST_PARSED, function (e, data) {
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
             // Ставим начальное качество минимальным
             //  hls.autoLevelEnabled = false;
             //  hls.loadLevel = 0;
@@ -41,7 +49,9 @@ function initVideocontrol() {
     const videosContainer = document.querySelector('.videotiles');
 
     /* Массив источников*/
-    let audioSources = {};
+    let audioSources: {
+        [id: string]: {}
+    } = {};
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     // Аудио-контекст
     const context = new AudioContext();
@@ -52,7 +62,7 @@ function initVideocontrol() {
     analyser.smoothingTimeConstant = 0.3;
     analyser.fftSize = 512;
     analyser.connect(node);
-    let activeVolume = null;
+    let activeVolume: CanvasRenderingContext2D;
 
     // Все видео
     const videos = document.querySelectorAll('.video');
@@ -62,15 +72,16 @@ function initVideocontrol() {
     /**
      * Подключает определенную камеру
      **/
-    function connectAudioSource(video) {
+    function connectAudioSource(video: HTMLVideoElement) {
         const id = video.id;
 
+        console.log(audioSources)
         if (!audioSources[id]) {
             audioSources[id] = context.createMediaElementSource(video);
         }
 
-        audioSources[id].connect(analyser);
-        audioSources[id].connect(context.destination);
+        (<AnalyserNode>audioSources[id]).connect(analyser);
+        (<AnalyserNode>audioSources[id]).connect(context.destination);
     }
 
     /**
@@ -93,7 +104,7 @@ function initVideocontrol() {
     /**
      * Считает среднее массива частот с источника
      **/
-    function getAverageVolume(array) {
+    function getAverageVolume(array: Uint8Array) {
         let length = array.length;
         let sum = 0;
 
@@ -106,38 +117,49 @@ function initVideocontrol() {
 
 
     for (let i = 0; i < videos.length; i++) {
-        hlsArray[i] = initHls(videos[i], streams[i]);
+        hlsArray[i] = initHls(<HTMLVideoElement>videos[i], streams[i]);
         // console.log(hlsArray[i]);
 
         // Событие - открытие окна
         videos[i].addEventListener('click', () => {
-            openFullScreen(videos[i]);
+            openFullScreen(<HTMLVideoElement>videos[i]);
         });
     }
 
     // Событие - закрытие окна
     for (let i = 0; i < cardsBtn.length; i++) {
         cardsBtn[i].addEventListener('click', (e) => {
-            closeFullScreen(cardsBtn[i], e);
+            closeFullScreen(<HTMLElement>cardsBtn[i], e);
         });
     }
 
     /**
      * Открытие фулл режима
      **/
-    function openFullScreen(video) {
-        const videoWrap = video.parentNode;
+    function openFullScreen(video: HTMLVideoElement) {
+        const videoWrap: HTMLElement = <HTMLElement>video.parentNode;
         // Инф-ия о блоке видео
         const videoData = video.getBoundingClientRect();
         const videoDataWidth = videoData.width;
         const videoDataHeight = videoData.height;
         const videoDataSquare = videoDataWidth * videoDataHeight;
-        const documentSquare = videosContainer.offsetWidth * videosContainer.offsetHeight;
+        const documentSquare = (<HTMLElement>videosContainer).offsetWidth * (<HTMLElement>videosContainer).offsetHeight;
 
 
-        console.log(documentSquare / videoDataSquare / 2);
-        // const videoDataWidth = videoData
-        activeVolume = videoWrap.querySelector('.card-video__volume').getContext("2d");
+        if (videoWrap === null)
+            return;
+
+        const videoVolume = videoWrap.querySelector('.card-video__volume');
+
+        if (videoVolume === null)
+            return;
+
+        const videoVolumeContext = (<HTMLCanvasElement>videoVolume).getContext("2d");
+
+        if (videoVolumeContext === null)
+            return;
+
+        activeVolume = videoVolumeContext;
 
         if (videoWrap.classList.contains('active'))
             return;
@@ -148,8 +170,8 @@ function initVideocontrol() {
         connectAudioSource(video);
 
         // Позиции центра экрана
-        let positionCenterX = (document.body.clientWidth / 2) - videoData.x - (videoData.width / 2);
-        let positionCenterY = (document.body.clientHeight / 2) - videoData.y - (videoData.height / 2);
+        let positionCenterX = (document.body.clientWidth / 2) - (videoData).left - (videoData.width / 2);
+        let positionCenterY = (document.body.clientHeight / 2) - videoData.top - (videoData.height / 2);
         videoWrap.style.transform = `translate3d(${positionCenterX}px, ${positionCenterY}px, 0) scale(2)`;
 
         // hlsVideo1.loadLevel = 2;
@@ -160,13 +182,21 @@ function initVideocontrol() {
      * Закрытие full режима
      * @type {NodeList}
      */
-    function closeFullScreen(button, e) {
+    function closeFullScreen(button: HTMLElement, e: Event) {
         e.preventDefault();
         const parent = button.closest('.card-video');
+
+        if (parent === null)
+            return;
+
         const video = parent.querySelector('video');
-        parent.style.transform = null;
+
+        if (video === null)
+            return;
+
+        (<HTMLElement>parent).style.transform = null;
         video.muted = true;
-        audioSources[video.id].disconnect();
+        (<AnalyserNode>audioSources[video.id]).disconnect();
 //        video.disconnect();
 
         setTimeout(() => {
@@ -183,8 +213,23 @@ function initVideocontrol() {
     let cardsInputBrightness = document.querySelectorAll('.card-video__input-brightness');
 
     for (let i = 0; i < cardsInputBrightness.length; i++) {
-        cardsInputBrightness[i].addEventListener('input', function (e) {
-            this.closest('.card-video').querySelector('.video').style.filter = `brightness(${this.value}%)`;
+
+        cardsInputBrightness[i].addEventListener('input', () => {
+
+            if (cardsInputBrightness[i] == null)
+                return;
+
+            let parent = cardsInputBrightness[i].closest('.card-video');
+
+            if (parent === null)
+                return;
+
+            let parentVideo = parent.querySelector('.video');
+
+            if (parentVideo === null)
+                return;
+
+            (<HTMLElement>parentVideo).style.filter = `brightness(${(<HTMLInputElement>cardsInputBrightness[i]).value}%)`;
         });
     }
 
@@ -195,14 +240,29 @@ function initVideocontrol() {
     let cardsInputContrast = document.querySelectorAll('.card-video__input-contrast');
 
     for (let i = 0; i < cardsInputContrast.length; i++) {
-        cardsInputContrast[i].addEventListener('input', function (e) {
-            this.closest('.card-video').querySelector('.video').style.filter = `contrast(${this.value}%)`;
+        cardsInputContrast[i].addEventListener('input', (e) => {
+
+            if (cardsInputContrast[i] == null)
+                return;
+
+            let parent = cardsInputContrast[i].closest('.card-video')
+
+            if (parent === null)
+                return;
+
+            let parentVideo = parent.querySelector('.video');
+
+            if (parentVideo === null)
+                return;
+
+
+            (<HTMLElement>parentVideo).style.filter = `contrast(${(<HTMLInputElement>cardsInputContrast[i]).value}%)`;
         });
     }
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    iniMenu();
+    initMenu();
     initVideocontrol();
 })

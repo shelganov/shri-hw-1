@@ -443,35 +443,45 @@
     }
   }
 
+  // Карточка с камерой (Pointer)
   &_mode_camera {
     width: 320px;
     margin: 0 auto;
 
+    .card__camera-stat {
+      margin-top: 10px;
+    }
+
     .card__img {
+      position: relative;
       height: 230px;
+    }
+
+    .card__img-scroll {
+      position: absolute;
+      bottom: 6px;
+      left: 0;
+      width: 100px;
+      height: 3px;
+      background-color: rgba(58, 58, 58, 0.61);
     }
   }
 }
 
 .camera {
+  position: absolute;
   width: 9999px;
-
-  //transition: .2s all;
-  //-webkit-backface-visibility: hidden;
   -webkit-overflow-scrolling: touch;
-  //overflow: scroll;
-  //height: 230px;
-  //&__img {
 
-  //}
   &__img {
     width: auto;
-    //height: 100%;
     touch-action: none;
     user-select: none;
     -webkit-user-drag: none;
     pointer-events: none;
-
+    transform-origin: center center;
+    -webkit-overflow-scrolling: touch;
   }
+
 
 }

@@ -5,15 +5,16 @@ import './img/graph@2x.png';
 import './img/hoover.png';
 
 import renderCards from './js/template';
-import iniMenu from './js/menu';
+import initMenu from './js/menu';
 import ellipsizeText from './js/ellipsizeText';
 
-const dataEvents = require('./events.json');
+import dataEvents from './events.json';
 
 document.addEventListener('DOMContentLoaded', function () {
-    iniMenu();
+    initMenu();
+
     renderCards(dataEvents);
 
-    let cardTitles = document.querySelectorAll('.card__title');
+    let cardTitles: NodeListOf<HTMLElement> = document.querySelectorAll('.card__title');
     ellipsizeText(cardTitles);
 });

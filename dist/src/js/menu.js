@@ -1,12 +1,14 @@
-
-export default function initMenu() {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function initMenu() {
     let sideMenuTrigger = document.getElementById('js-side-menu-trigger');
+    if (sideMenuTrigger === null)
+        return;
     sideMenuTrigger.addEventListener('click', function () {
         document.getElementsByClassName('side-menu')[0].classList.add('side-menu--visible--yes');
         document.getElementsByClassName('content')[0].classList.add('content--visible--no');
         this.classList.add('side-menu--visible--yes');
     });
-
     let sideMenuClose = document.getElementsByClassName('side-menu__cross')[0];
     sideMenuClose.addEventListener('click', function () {
         document.getElementsByClassName('side-menu')[0].classList.remove('side-menu--visible--yes');
@@ -14,3 +16,5 @@ export default function initMenu() {
         document.getElementsByClassName('hamburger')[0].classList.remove('side-menu--visible--yes');
     });
 }
+exports.default = initMenu;
+//# sourceMappingURL=menu.js.map
