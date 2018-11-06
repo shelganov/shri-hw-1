@@ -1,4 +1,72 @@
-import Actions from '../framework/Actions';
+// import Actions from '../framework/Actions';
+import Framework from "../framework/Framework";
+
+/**
+ * Action - смена трека
+ * @type {{type: string; payload: {artist: string; trackName: string; trackLength: string}}}
+ */
+const changeTrack = {
+    type: 'CHANGE_TRACK',
+    payload:{
+        artist: 'Beyonce',
+        trackName: 'single ladies',
+        trackLength: '3:20'
+    }
+};
+
+/**
+ * Инициализируем начальные данные
+ */
+interface ICurrentTrack {
+    artist: string,
+    trackName: string
+    trackLength: string
+}
+const currentTrack = <ICurrentTrack> {
+    artist: 'Florence & The Machine',
+    trackName: 'Big God',
+    trackLength: '4:31'
+};
+
+const state: any = localStorage.getItem('TrackInfo') ?
+    JSON.parse(<any>localStorage.getItem('TrackInfo')) :
+    currentTrack;
+
+/**
+ * Инициализируем библиотку
+ * @type {Framework}
+ */
+const framework = new Framework();
+
+/**
+ * Создаем store
+ * @type {any}
+ */
+const playerStore = framework.createStore(state);
+localStorage.setItem('TrackInfo', JSON.stringify(playerStore.data));
+console.log('STORE DATA:');
+console.log(playerStore);
+
+/**
+ * Регистрируем коллбеки
+ */
+framework.register("CHANGE_TRACK", (payload: any) => {
+    const currentTrack = {
+        artist: payload.artist,
+        trackName: payload.trackName,
+        trackLength: payload.trackLength
+    };
+    playerStore.data["artist"] = currentTrack.artist;
+    playerStore.data["trackName"] = currentTrack.trackName;
+    playerStore.data["trackLength"] = currentTrack.trackLength;
+    localStorage.setItem('TrackInfo', JSON.stringify(currentTrack));
+
+    // playerStore.update();
+    console.log('NEW STORE DATA:');
+    console.log(playerStore);
+});
+
+
 
 interface IJson {
     events: {
@@ -88,9 +156,9 @@ function renderCards(events: IJson): void {
         let cardCross = document.createElement('div');
         cardCross.classList.add('card__cross');
 
-        cardCross.addEventListener('click', function () {
-            Actions.removeCard(card)
-        });
+        // cardCross.addEventListener('click', function () {
+        //     Actions.removeCard(card)
+        // });
 
         let cardNext = document.createElement('div');
         cardNext.classList.add('card__next');
@@ -165,9 +233,12 @@ function renderCards(events: IJson): void {
                 return;
             }
 
-            artist.innerHTML = <string>events.events[i].data!.artist;
-            trackName.innerHTML = <string>events.events[i].data!.track!.name;
-            trackLength.innerHTML = <string>events.events[i].data!.track!.length;
+            artist.innerHTML = playerStore.data["artist"] ?
+                <string>playerStore.data["artist"] : <string>events.events[i].data!.artist;
+            trackName.innerHTML = playerStore.data["trackName"] ?
+                <string>playerStore.data["trackName"] : <string>events.events[i].data!.track!.name;
+            trackLength.innerHTML = playerStore.data["trackLength"] ?
+                <string>playerStore.data["trackLength"] : <string>events.events[i].data!.track!.length;
             sliderValLength.innerHTML = <string>events.events[i].data!.volume;
             (<HTMLElement>playerCover).style.backgroundImage = `url(${events.events[i].data!.albumcover})`;
 

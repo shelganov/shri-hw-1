@@ -8,7 +8,7 @@ module.exports = {
         index: './src/index.ts',
         touch: './src/touch.ts',
         video: './src/video.ts',
-        app: './src/framework/app.ts',
+        // app: './src/framework/Framework.ts',
     },
     output: {
         path: path.resolve(__dirname, `dist`),

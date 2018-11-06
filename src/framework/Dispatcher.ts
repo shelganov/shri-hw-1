@@ -15,40 +15,37 @@ class Dispatcher {
     _container: {
         [eventType: string]: {}[]
     };
-    _ID: number;
+    // _ID: number;
 
     constructor() {
         // this._actions = {};
         // this._callbacks = {};
-        this._ID = 0;
+        // this._ID = 0;
         this._container = {};
     }
 
     /**
-     * Получе ние события от View
-     * @param {} action - событие
+     * Срабатываение коллбеков из Store
+     * @param {} action - событие от View
      */
     dispatch(action: { type: string; payload: { card: any; }; }): any {
         this._container[action.type].forEach(function (handler) {
             // @ts-ignore
             handler(action.payload);
         })
-        // Вызываем коллбек на триггер action
-        // this._container[action.type]();
-        // this._data[action.type]();
     }
 
     /**
      * Регистрация коллбеков
-     * @param action
+     * @param actionType
      * @param callback
      */
-    register (action: any, callback: any): void {
-        this._container[action.type].push(callback);
-        // this._callbacks[this._ID++] = callback;
+    register (actionType: any, callback: any): void {
+        if (!this._container[actionType])
+            this._container[actionType] = [];
+
+        this._container[actionType].push(callback);
     }
 }
 
-const AppDispatcher = new Dispatcher();
-
-export default AppDispatcher;
+export default Dispatcher;
