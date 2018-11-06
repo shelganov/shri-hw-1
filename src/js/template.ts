@@ -1,3 +1,4 @@
+import Actions from '../framework/Actions';
 
 interface IJson {
     events: {
@@ -86,6 +87,11 @@ function renderCards(events: IJson): void {
         cardTopContent.classList.add('card__wrap');
         let cardCross = document.createElement('div');
         cardCross.classList.add('card__cross');
+
+        cardCross.addEventListener('click', function () {
+            Actions.removeCard(card)
+        });
+
         let cardNext = document.createElement('div');
         cardNext.classList.add('card__next');
 
