@@ -1,72 +1,73 @@
 // import Actions from '../framework/Actions';
 import Framework from "../framework/Framework";
 
-/**
- * Action - смена трека
- * @type {{type: string; payload: {artist: string; trackName: string; trackLength: string}}}
- */
-const changeTrack = {
-    type: 'CHANGE_TRACK',
-    payload:{
-        artist: 'Beyonce',
-        trackName: 'single ladies',
-        trackLength: '3:20'
-    }
-};
+// /**
+//  * Action - смена трека
+//  * @type {{type: string; payload: {artist: string; trackName: string; trackLength: string}}}
+//  */
+// const changeTrack = {
+//     type: 'CHANGE_TRACK',
+//     payload:{
+//         artist: 'Beyonce',
+//         trackName: 'single ladies',
+//         trackLength: '3:20'
+//     }
+// };
+//
+// /**
+//  * Инициализируем начальные данные
+//  */
+// interface ICurrentTrack {
+//     artist: string,
+//     trackName: string
+//     trackLength: string
+// }
+// const currentTrack = <ICurrentTrack> {
+//     artist: 'Florence & The Machine',
+//     trackName: 'Big God',
+//     trackLength: '4:31'
+// };
+//
+// const state: any = localStorage.getItem('TrackInfo') ?
+//     JSON.parse(<any>localStorage.getItem('TrackInfo')) :
+//     currentTrack;
+//
+// /**
+//  * Инициализируем библиотку
+//  * @type {Framework}
+//  */
+// const framework = new Framework();
+//
+// /**
+//  * Создаем store
+//  * @type {any}
+//  */
+// const playerStore = framework.createStore(state);
+// localStorage.setItem('TrackInfo', JSON.stringify(playerStore.data));
+// console.log('STORE DATA:');
+// console.log(playerStore);
+//
+// /**
+//  * Регистрируем коллбеки
+//  */
+// framework.register("CHANGE_TRACK", (payload: any) => {
+//     const currentTrack = {
+//         artist: payload.artist,
+//         trackName: payload.trackName,
+//         trackLength: payload.trackLength
+//     };
+//     playerStore.data["artist"] = currentTrack.artist;
+//     playerStore.data["trackName"] = currentTrack.trackName;
+//     playerStore.data["trackLength"] = currentTrack.trackLength;
+//     localStorage.setItem('TrackInfo', JSON.stringify(currentTrack));
+//
+//     // playerStore.update();
+//     console.log('NEW STORE DATA:');
+//     console.log(playerStore);
+// });
 
-/**
- * Инициализируем начальные данные
- */
-interface ICurrentTrack {
-    artist: string,
-    trackName: string
-    trackLength: string
-}
-const currentTrack = <ICurrentTrack> {
-    artist: 'Florence & The Machine',
-    trackName: 'Big God',
-    trackLength: '4:31'
-};
-
-const state: any = localStorage.getItem('TrackInfo') ?
-    JSON.parse(<any>localStorage.getItem('TrackInfo')) :
-    currentTrack;
-
-/**
- * Инициализируем библиотку
- * @type {Framework}
- */
-const framework = new Framework();
-
-/**
- * Создаем store
- * @type {any}
- */
-const playerStore = framework.createStore(state);
-localStorage.setItem('TrackInfo', JSON.stringify(playerStore.data));
-console.log('STORE DATA:');
-console.log(playerStore);
-
-/**
- * Регистрируем коллбеки
- */
-framework.register("CHANGE_TRACK", (payload: any) => {
-    const currentTrack = {
-        artist: payload.artist,
-        trackName: payload.trackName,
-        trackLength: payload.trackLength
-    };
-    playerStore.data["artist"] = currentTrack.artist;
-    playerStore.data["trackName"] = currentTrack.trackName;
-    playerStore.data["trackLength"] = currentTrack.trackLength;
-    localStorage.setItem('TrackInfo', JSON.stringify(currentTrack));
-
-    // playerStore.update();
-    console.log('NEW STORE DATA:');
-    console.log(playerStore);
-});
-
-
+import {playerStore} from "../index";
+// console.log(playerStore)
 
 interface IJson {
     events: {

@@ -15,7 +15,6 @@ class Dispatcher {
     _container: {
         [eventType: string]: {}[]
     };
-    // _ID: number;
 
     constructor() {
         // this._actions = {};
@@ -28,7 +27,7 @@ class Dispatcher {
      * Срабатываение коллбеков из Store
      * @param {} action - событие от View
      */
-    dispatch(action: { type: string; payload: { card: any; }; }): any {
+    dispatch(action: { type: string; payload: {}; }): any {
         this._container[action.type].forEach(function (handler) {
             // @ts-ignore
             handler(action.payload);

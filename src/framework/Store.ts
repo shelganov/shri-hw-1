@@ -12,6 +12,10 @@ class Store {
     constructor(state: any) {
         this.data = state;
     }
+
+    change() {
+
+    }
 }
 
 export default Store;
