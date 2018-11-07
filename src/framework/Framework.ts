@@ -1,23 +1,27 @@
 import Dispatcher from './Dispatcher';
 import Store from './Store';
 
+/**
+ * Фреймворк
+ */
 class Framework {
-    AppDispatcher: any;
-    store: any;
+    AppDispatcher: Dispatcher;
+    store: {};
 
     constructor() {
         this.AppDispatcher = new Dispatcher();
+        this.store = {};
     }
 
-    register(action: any, callback: any): void {
+    register(action: string, callback: {}): void {
         this.AppDispatcher.register(action, callback)
     }
 
-    dispatch(action: any): void {
+    dispatch(action: {type: string, payload: {}}): void {
         this.AppDispatcher.dispatch(action)
     }
 
-    createStore(state: any) {
+    createStore(state: {}) {
         this.store = new Store(state);
         return this.store;
     }

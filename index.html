@@ -30,48 +30,46 @@
                 </div>
             </header>
             <main>
+                <template id="tplBase">
+                    <div class="card">
+                        <div class="card__header">
+                            <div class="icon card__icon"></div>
+                            <div class="card__title"></div>
+                        </div>
+                        <div class="card__source"></div>
+                        <div class="card__time"></div>
+                    </div>
+                </template>
+
+                <template id="tplPlayer">
+                    <div class="player card__player">
+                        <div class="player__cover"></div>
+                        <div class="player__track">
+                            <div class="player__track-title">
+                                <span class="player__track-artist"></span>
+                                <span>-</span>
+                                <span class="player__track-name"></span>
+                            </div>
+                            <div class="player__track-slider track-slider">
+                                <div class="track-slider__line">
+                                    <div class="track-slider__ctrl"></div>
+                                </div>
+                                <div class="player__track-length"></div>
+                            </div>
+                        </div>
+                        <div class="player__controls">
+                            <div class="player__ctrl player__ctrl_type_prev"></div>
+                            <div class="player__ctrl player__ctrl_type_next"></div>
+                            <div class="vol-slider">
+                                <div class="vol-slider__ctrl"></div>
+                            </div>
+                            <div class="vol-slider-val"><span class="vol-slider-val__length"></span>%</div>
+                        </div>
+                    </div>
+                </template>
                 <div class="container container-grid">
                     <h1 class="main-title">Лента событий</h1>
                     <div class="cards">
-
-                        <template id="tplBase">
-                            <div class="card">
-                                <div class="card__header">
-                                    <div class="icon card__icon"></div>
-                                    <div class="card__title"></div>
-                                </div>
-                                <div class="card__source"></div>
-                                <div class="card__time"></div>
-                            </div>
-                        </template>
-
-                        <template id="tplPlayer">
-                            <div class="player card__player">
-                                <div class="player__cover"></div>
-                                <div class="player__track">
-                                    <div class="player__track-title">
-                                        <span class="player__track-artist"></span>
-                                        <span>-</span>
-                                        <span class="player__track-name"></span>
-                                    </div>
-                                    <div class="player__track-slider track-slider">
-                                        <div class="track-slider__line">
-                                            <div class="track-slider__ctrl"></div>
-                                        </div>
-                                        <div class="player__track-length"></div>
-                                    </div>
-                                </div>
-                                <div class="player__controls">
-                                    <div class="player__ctrl player__ctrl_type_prev"></div>
-                                    <div class="player__ctrl player__ctrl_type_next"></div>
-                                        <div class="vol-slider">
-                                            <div class="vol-slider__ctrl"></div>
-                                        </div>
-                                    <div class="vol-slider-val"><span class="vol-slider-val__length"></span>%</div>
-                                </div>
-                            </div>
-                        </template>
-
                     </div>
                 </div>
             </main>
