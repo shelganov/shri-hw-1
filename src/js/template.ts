@@ -162,7 +162,9 @@ function renderCards(playerStore: any, events: IJson): void {
             trackLength.innerHTML = playerStore.data["trackLength"] ?
                 <string>playerStore.data["trackLength"] : <string>events.events[i].data!.track!.length;
             sliderValLength.innerHTML = <string>events.events[i].data!.volume;
-            (<HTMLElement>playerCover).style.backgroundImage = `url(${events.events[i].data!.albumcover})`;
+            (<HTMLElement>playerCover).style.backgroundImage = playerStore.data["coverAlbum"] ?
+                `url(${<string>playerStore.data["coverAlbum"]})` :
+                `url(${events.events[i].data!.albumcover})`;
 
             card.appendChild(clonePlayer);
         }

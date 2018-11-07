@@ -28,13 +28,15 @@ function renderMainPage(): void {
  * @type {{type: string; payload: {artist: string; trackName: string; trackLength: string}}}
  */
 const actions = {
-    nextTrack: (artist: string, trackName: string, trackLength: string): void => {
+    nextTrack: (artist: string, trackName: string, trackLength: string, coverAlbum: string): void => {
         const action = {
             type: 'CHANGE_TRACK',
             payload: {
-                artist: 'Beyonce',
-                trackName: 'single ladies',
-                trackLength: '3:20'
+                artist: artist,
+                trackName: trackName,
+                trackLength: trackLength,
+                coverAlbum: coverAlbum
+
             }
         };
         framework.dispatch(action);
@@ -53,7 +55,8 @@ interface ICurrentTrack {
 const currentTrack = <ICurrentTrack> {
     artist: 'Florence & The Machine',
     trackName: 'Big God',
-    trackLength: '4:31'
+    trackLength: '4:31',
+    coverAlbum: 'https://avatars.yandex.net/get-music-content/193823/1820a43e.a.5517056-1/m200x200'
 };
 
 /**
@@ -96,6 +99,6 @@ document.addEventListener('DOMContentLoaded', (): void => {
         return;
 
     btnNextTrack.addEventListener('click', () => {
-        actions.nextTrack("Beyonce", "single ladies", "3:20");
+        actions.nextTrack("Beyonce", "single ladies", "3:20", "//avatars.yandex.net/get-music-content/49876/c800fb3b.p.27995/200x200");
     });
 });
