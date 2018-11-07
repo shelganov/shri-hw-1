@@ -6,22 +6,36 @@ import Store from './Store';
  */
 class Framework {
     AppDispatcher: Dispatcher;
-    store: {};
+    store: {data: {}};
 
     constructor() {
         this.AppDispatcher = new Dispatcher();
-        this.store = {};
+        this.store = {data: {}};
     }
 
-    register(action: string, callback: {}): void {
-        this.AppDispatcher.register(action, callback)
+    /**
+     * Регистрация коллбеков
+     * @param {string} actionType
+     * @param {{}} callback
+     */
+    register(actionType: string, callback: {}): void {
+        this.AppDispatcher.register(actionType, callback)
     }
 
+    /**
+     * Триггер коллбеков
+     * @param action
+     */
     dispatch(action: {type: string, payload: {}}): void {
         this.AppDispatcher.dispatch(action)
     }
 
-    createStore(state: {}) {
+    /**
+     * Создание store
+     * @param {{}} state
+     * @returns {{}}
+     */
+    createStore(state: {}): {data: {}} {
         this.store = new Store(state);
         return this.store;
     }

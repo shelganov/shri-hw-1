@@ -1,9 +1,3 @@
-// import Actions from '../framework/Actions';
-// import Framework from "../framework/Framework";
-
-// import {playerStore} from "../index";
-// console.log(playerStore)
-
 interface IJson {
     events: {
         type: string,
@@ -25,15 +19,13 @@ interface IJson {
             albumcover?: string,
             buttons?: [string, string]
         },
-
     }[]
 }
 
 /**
  * Функция вывода шаблона карточки
- *
  * @param playerStore
- * @param events - json файл с элементами
+ * @param {IJson} events - json файл с элементами
  */
 function renderCards(playerStore: any, events: IJson): void {
     const root = <HTMLElement>document.querySelector('.cards');
@@ -77,26 +69,18 @@ function renderCards(playerStore: any, events: IJson): void {
         if (cardTime === null)
             return;
 
-        // cardContent = card.querySelector('.card__content');
-        // console.log(141414)
-
-        // if (cardContent === null)
-        //     return;
-
         card.classList.add(`card_type_${events.events[i].type}`);
         card.classList.add(`card_size_${events.events[i].size}`);
         cardIcon.classList.add(`icon_thumb_${events.events[i].icon}`);
         cardTitle.innerHTML = events.events[i].title;
         cardSource.innerHTML = events.events[i].source;
         cardTime.innerHTML = events.events[i].time;
+
         let cardTopContent = document.createElement('div');
         cardTopContent.classList.add('card__wrap');
+
         let cardCross = document.createElement('div');
         cardCross.classList.add('card__cross');
-
-        // cardCross.addEventListener('click', function () {
-        //     Actions.removeCard(card)
-        // });
 
         let cardNext = document.createElement('div');
         cardNext.classList.add('card__next');

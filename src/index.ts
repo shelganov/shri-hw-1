@@ -9,22 +9,36 @@ import ellipsizeText from './js/ellipsizeText';
 import dataEvents from './events.json';
 import Framework from './framework/Framework';
 
+/**
+ * Рендер главной страницы
+ */
+function renderMainPage(): void {
+    const root = document.querySelector<HTMLElement>('.cards');
+
+    if (!root)
+        return;
+
+    root.innerHTML = '';
+    renderCards(playerStore, dataEvents);
+}
 
 /**
  * Action - смена трека
  * Подставляем данные в виде заглушки
  * @type {{type: string; payload: {artist: string; trackName: string; trackLength: string}}}
  */
-const nextTrack = (artist: string, trackName: string, trackLength: string): void => {
-    const action = {
-        type: 'CHANGE_TRACK',
-        payload:{
-            artist: 'Beyonce',
-            trackName: 'single ladies',
-            trackLength: '3:20'
-        }
-    };
-    framework.dispatch(action);
+const actions = {
+    nextTrack: (artist: string, trackName: string, trackLength: string): void => {
+        const action = {
+            type: 'CHANGE_TRACK',
+            payload: {
+                artist: 'Beyonce',
+                trackName: 'single ladies',
+                trackLength: '3:20'
+            }
+        };
+        framework.dispatch(action);
+    }
 };
 
 /**
@@ -46,7 +60,6 @@ const currentTrack = <ICurrentTrack> {
  * Инициализируем библиотку
  * @type {Framework}
  */
-
 const framework = new Framework();
 
 /**
@@ -55,10 +68,11 @@ const framework = new Framework();
 const state = localStorage.getItem('TrackInfo') ?
     JSON.parse(<string>localStorage.getItem('TrackInfo')) :
     currentTrack;
+
 /**
  * Создаем store
  */
-const playerStore = framework.createStore(state);
+const playerStore: {data: {}} = framework.createStore(state);
 localStorage.setItem('TrackInfo', JSON.stringify(playerStore.data));
 
 /**
@@ -67,27 +81,12 @@ localStorage.setItem('TrackInfo', JSON.stringify(playerStore.data));
 framework.register("CHANGE_TRACK", (payload: {}): void => {
     playerStore.data = payload;
     localStorage.setItem('TrackInfo', JSON.stringify(payload));
-    renderPage();
+    renderMainPage();
 });
 
-/**
- * Рендер страницы
- */
-function renderPage(): void {
-    const root = document.querySelector<HTMLElement>('.cards');
-
-    if (!root)
-        return;
-
-    root.innerHTML = '';
-    renderCards(playerStore, dataEvents);
-}
-
-
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', (): void => {
     initMenu();
-
-    renderCards(playerStore, dataEvents);
+    renderMainPage();
     let cardTitles: NodeListOf<HTMLElement> = document.querySelectorAll('.card__title');
     ellipsizeText(cardTitles);
 
@@ -97,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
 
     btnNextTrack.addEventListener('click', () => {
-        nextTrack("Beyonce", "single ladies", "3:20");
+        actions.nextTrack("Beyonce", "single ladies", "3:20");
     });
-
 });
