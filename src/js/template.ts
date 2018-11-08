@@ -1,4 +1,3 @@
-
 interface IJson {
     events: {
         type: string,
@@ -20,16 +19,16 @@ interface IJson {
             albumcover?: string,
             buttons?: [string, string]
         },
-
     }[]
 }
 
 /**
  * Функция вывода шаблона карточки
- *
- * @param events - json файл с элементами
+ * @param playerStore
+ * @param {IJson} events - json файл с элементами
  */
-function renderCards(events: IJson): void {
+function renderCards(playerStore: any, events: IJson): void {
+    const root = <HTMLElement>document.querySelector('.cards');
     let templateBase: HTMLTemplateElement | null = <HTMLTemplateElement>document.getElementById('tplBase');
     let templatePlayer: HTMLTemplateElement | null = <HTMLTemplateElement>document.getElementById('tplPlayer');
     let clone: Node;
@@ -70,22 +69,19 @@ function renderCards(events: IJson): void {
         if (cardTime === null)
             return;
 
-        // cardContent = card.querySelector('.card__content');
-        // console.log(141414)
-
-        // if (cardContent === null)
-        //     return;
-
         card.classList.add(`card_type_${events.events[i].type}`);
         card.classList.add(`card_size_${events.events[i].size}`);
         cardIcon.classList.add(`icon_thumb_${events.events[i].icon}`);
         cardTitle.innerHTML = events.events[i].title;
         cardSource.innerHTML = events.events[i].source;
         cardTime.innerHTML = events.events[i].time;
+
         let cardTopContent = document.createElement('div');
         cardTopContent.classList.add('card__wrap');
+
         let cardCross = document.createElement('div');
         cardCross.classList.add('card__cross');
+
         let cardNext = document.createElement('div');
         cardNext.classList.add('card__next');
 
@@ -159,11 +155,16 @@ function renderCards(events: IJson): void {
                 return;
             }
 
-            artist.innerHTML = <string>events.events[i].data!.artist;
-            trackName.innerHTML = <string>events.events[i].data!.track!.name;
-            trackLength.innerHTML = <string>events.events[i].data!.track!.length;
+            artist.innerHTML = playerStore.data["artist"] ?
+                <string>playerStore.data["artist"] : <string>events.events[i].data!.artist;
+            trackName.innerHTML = playerStore.data["trackName"] ?
+                <string>playerStore.data["trackName"] : <string>events.events[i].data!.track!.name;
+            trackLength.innerHTML = playerStore.data["trackLength"] ?
+                <string>playerStore.data["trackLength"] : <string>events.events[i].data!.track!.length;
             sliderValLength.innerHTML = <string>events.events[i].data!.volume;
-            (<HTMLElement>playerCover).style.backgroundImage = `url(${events.events[i].data!.albumcover})`;
+            (<HTMLElement>playerCover).style.backgroundImage = playerStore.data["coverAlbum"] ?
+                `url(${<string>playerStore.data["coverAlbum"]})` :
+                `url(${events.events[i].data!.albumcover})`;
 
             card.appendChild(clonePlayer);
         }
@@ -217,7 +218,7 @@ function renderCards(events: IJson): void {
         card.insertBefore(cardCross,card.firstChild);
         card.insertBefore(cardNext,card.firstChild);
         card.insertBefore(cardTopContent, card.firstChild);
-        (<Node>templateBase.parentNode).appendChild(clone);
+        root.appendChild(clone);
     }
 }
 
